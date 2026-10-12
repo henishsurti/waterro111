@@ -24,3 +24,44 @@ def test_login_and_me(client):
 
 def test_bootstrap_requires_auth(client):
     assert client.get('/api/bootstrap').status_code==401
+
+
+def _login(client):
+    r=client.post('/api/auth/login',json={'username':'admin','password':'admin123','role':'admin'}); assert r.status_code==200
+    return {'X-CSRF-Token':r.json()['csrf_token']}
+
+def test_changes_revision_moves_on_sync(client):
+    h=_login(client)
+    rev0=client.get('/api/changes').json()['revision']
+    r=client.post('/api/sync',json={'data':{'customers':[],'users':[{'id':'u1','username':'admin','role':'admin','name':'Admin'}]}},headers=h)
+    assert r.status_code==200
+    assert r.json()['revision']>rev0
+    assert client.get('/api/changes').json()['revision']==r.json()['revision']
+    assert client.get('/api/bootstrap').json()['revision']==r.json()['revision']
+
+def test_stale_sync_is_rejected(client):
+    h=_login(client)
+    data={'users':[{'id':'u1','username':'admin','role':'admin','name':'Admin'}]}
+    first=client.post('/api/sync',json={'data':data},headers=h).json()['revision']
+    # someone else saves in the meantime
+    client.post('/api/sync',json={'data':data},headers=h)
+    stale=client.post('/api/sync',json={'data':data,'base_revision':first},headers=h)
+    assert stale.status_code==409
+    fresh=client.get('/api/changes').json()['revision']
+    assert client.post('/api/sync',json={'data':data,'base_revision':fresh},headers=h).status_code==200
+
+def test_database_and_code_are_not_served(client):
+    for path in ('/aquaflow.db','/backend/app.py','/database.sql','/test.db'):
+        assert client.get(path).status_code==404
+    assert client.get('/').status_code==200
+
+def test_bootstrap_returns_typed_settings(client):
+    h=_login(client)
+    with app.conn() as c:
+        c.executemany('INSERT OR REPLACE INTO settings(key,value) VALUES(?,?)',[('amcReminderDays','60,30,15,7,1'),('serviceReminderDays','[1,2,3]'),('pushEnabled','true')])
+    st=client.get('/api/bootstrap').json()['data']['settings']
+    assert st['amcReminderDays']==[60,30,15,7,1] and st['serviceReminderDays']==[1,2,3] and st['pushEnabled'] is True
+    # and they survive a browser sync round-trip as lists
+    data=client.get('/api/bootstrap').json()['data']
+    assert client.post('/api/sync',json={'data':data},headers=h).status_code==200
+    assert client.get('/api/bootstrap').json()['data']['settings']['amcReminderDays']==[60,30,15,7,1]

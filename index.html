@@ -4,14 +4,15 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#0B5E73">
-<meta name="description" content="AquaFlow professional RO service, AMC and field technician management platform">
-<title>AquaFlow — RO Service &amp; AMC Manager</title>
+<meta name="description" content="Nirmal Agency — RO service, AMC and field technician management platform">
+<link rel="icon" type="image/png" href="assets/favicon.png">
+<title>Nirmal Agency — RO Service &amp; AMC Manager</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 /* =====================================================================
-   AquaFlow — design tokens
+   Nirmal Agency — design tokens
    Typography: Manrope (display/headings) + Inter (body/UI text)
    ===================================================================== */
 :root{
@@ -446,6 +447,62 @@ input:focus,select:focus,textarea:focus{outline:none; box-shadow:var(--focus); b
 .af-diagnostic-status{display:flex;gap:10px;align-items:flex-start;margin-top:14px;padding:12px;border-radius:10px}.af-diagnostic-status.good{background:var(--green-soft);color:var(--green)}.af-diagnostic-status.bad{background:var(--red-soft);color:var(--red)}.af-diagnostic-status svg{width:18px!important;height:18px!important;flex:0 0 18px}.af-diagnostic-status strong,.af-diagnostic-status span{display:block}.af-diagnostic-status strong{font-size:12px}.af-diagnostic-status span{font-size:11px;margin-top:2px;opacity:.8}.af-issue-list{margin:10px 0 0;padding-left:19px;color:var(--red);font-size:11.5px;line-height:1.6}
 .af-service-tools{display:flex;gap:7px;flex-wrap:wrap;margin:12px 0 18px;padding-top:12px;border-top:1px solid var(--border)}
 @media(max-width:520px){.af-service-tools .btn{flex:1;justify-content:center}.modal-foot{padding-bottom:calc(14px + env(safe-area-inset-bottom,0px))}.modal{max-height:95dvh}}
+
+.af-login-brand .logo-wide{background:#fff;border-radius:14px;padding:12px 18px;box-shadow:0 14px 34px rgba(0,0,0,.22);display:inline-flex}
+.af-login-brand .logo-wide img{display:block;height:54px;width:auto;max-width:100%}
+.sb-brand{padding:6px 6px 20px!important}
+.sb-brand img{display:block;width:100%;max-width:196px;height:auto;background:#fff;border-radius:11px;padding:8px 10px;box-shadow:0 6px 18px rgba(0,0,0,.18)}
+
+/* ===== Nirmal Agency dashboard ===== */
+.dash-head{display:flex;align-items:flex-end;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:14px}
+.dash-title{font-size:20px;margin:0 0 3px;letter-spacing:-.01em}
+.dash-tools{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.seg-toggle{display:inline-flex;border:1px solid var(--border);border-radius:10px;overflow:hidden;background:var(--surface)}
+.seg-toggle button{border:0;background:transparent;padding:8px 12px;font:700 12px var(--font-body);color:var(--ink-muted);cursor:pointer;min-height:36px}
+.seg-toggle button:hover{background:var(--aqua-tint)}
+.seg-toggle button.active{background:var(--teal);color:#fff}
+.live-pill{display:inline-flex;align-items:center;gap:7px;padding:7px 11px;border:1px solid var(--border);border-radius:999px;font-size:11.5px;font-weight:800;color:var(--ink-muted);background:var(--surface)}
+.live-pill .dot{width:8px;height:8px;border-radius:50%;background:var(--red)}
+.live-pill.online .dot{background:var(--green);animation:livePulse 2s infinite}
+@keyframes livePulse{0%{box-shadow:0 0 0 0 rgba(24,118,69,.5)}70%{box-shadow:0 0 0 7px rgba(24,118,69,0)}100%{box-shadow:0 0 0 0 rgba(24,118,69,0)}}
+@media (prefers-reduced-motion:reduce){.live-pill.online .dot{animation:none}}
+.dash-sec{font:800 11.5px var(--font-head);text-transform:uppercase;letter-spacing:.07em;color:var(--ink-muted);margin:8px 0 10px}
+.alert-strip{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}
+.alert-chip{display:inline-flex;align-items:center;gap:8px;padding:8px 13px;border-radius:999px;border:1px solid var(--border);background:var(--surface);font:700 12px var(--font-body);color:var(--ink);cursor:pointer}
+.alert-chip.danger{background:var(--red-soft);border-color:transparent;color:var(--red)}
+.alert-chip.warn{background:var(--amber-soft);border-color:transparent;color:var(--amber)}
+.alert-chip.info{background:var(--aqua-soft);border-color:transparent;color:var(--teal)}
+.alert-chip.ok{background:var(--green-soft);border-color:transparent;color:var(--green);cursor:default}
+.alert-chip svg{width:14px!important;height:14px!important}
+.alert-chip:not(.ok):hover{filter:brightness(.96);transform:translateY(-1px)}
+button.stat-card{text-align:left;font:inherit;color:inherit;width:100%;cursor:pointer;transition:transform .12s ease,box-shadow .12s ease,border-color .12s ease}
+button.stat-card .label,button.stat-card .value{display:block}
+button.stat-card:hover{transform:translateY(-2px);box-shadow:var(--shadow-md);border-color:var(--aqua)}
+button.stat-card:focus-visible,.bc-btn:focus-visible,.hbar:focus-visible,.act-row:focus-visible,.alert-chip:focus-visible,.lg-btn:focus-visible{outline:2px solid var(--aqua);outline-offset:2px}
+.stat-card .delta{font-size:11px;font-weight:700;margin-top:5px}
+.stat-card .delta.up{color:var(--green)}.stat-card .delta.down{color:var(--red)}.stat-card .delta.flat{color:var(--ink-faint)}
+.bc-btn{background:none;border:0;padding:0;font:inherit;color:inherit;cursor:pointer;border-radius:8px}
+.bc-btn:hover .stack{filter:brightness(1.12)}.bc-btn:hover{background:var(--aqua-tint)}
+.stack{width:100%;max-width:34px;display:flex;flex-direction:column;border-radius:6px 6px 2px 2px;overflow:hidden;transition:height .4s var(--ease);min-height:2px}
+.stack .seg{min-height:0;width:100%}.stack .seg.a{background:var(--teal)}.stack .seg.b{background:var(--aqua)}.stack .seg.c{background:var(--amber)}
+.legend-inline{display:flex;gap:12px;font-size:11.5px;color:var(--ink-muted);font-weight:700}.legend-inline .sw{display:inline-block;width:9px;height:9px;border-radius:3px;margin-right:5px}.legend-inline .sw.a{background:var(--teal)}.legend-inline .sw.b{background:var(--aqua)}
+.chart-hint{font-size:11px;color:var(--ink-faint);margin-top:8px;text-align:center}
+.donut-svg{width:150px;height:150px;flex:0 0 auto}.dseg{cursor:pointer;transition:stroke-width .12s}.dseg:hover,.dseg:focus{stroke-width:7;outline:none}
+.d-total{font:800 7px var(--font-head);fill:var(--ink)}.d-sub{font:600 2.6px var(--font-body);fill:var(--ink-muted)}
+.lg-btn{background:none;border:0;padding:4px 6px;margin:-4px -6px;border-radius:7px;font:inherit;color:inherit;text-align:left;cursor:pointer}.lg-btn:hover{background:var(--aqua-tint)}
+.hbars{display:flex;flex-direction:column;gap:6px}
+.hbar{display:grid;grid-template-columns:minmax(80px,32%) 1fr auto;align-items:center;gap:10px;width:100%;padding:7px 8px;border:0;background:none;border-radius:9px;font:inherit;color:inherit;cursor:pointer;text-align:left}
+.hbar:hover{background:var(--aqua-tint)}.hb-l{font-size:12.5px;font-weight:700;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.hb-t{height:9px;background:var(--surface-3);border-radius:99px;overflow:hidden}.hb-f{display:block;height:100%;border-radius:99px;transition:width .4s var(--ease)}.hb-v{font:800 12.5px var(--font-head)}
+.activity{display:flex;flex-direction:column}.act-row{display:flex;align-items:center;gap:12px;padding:11px 18px;border:0;border-bottom:1px solid var(--border-soft);background:none;font:inherit;color:inherit;text-align:left;cursor:pointer;width:100%}
+.act-row:last-child{border-bottom:0}.act-row:hover{background:var(--aqua-tint)}.act-ic{width:30px;height:30px;border-radius:9px;background:var(--aqua-soft);color:var(--teal);display:grid;place-items:center;flex:0 0 auto}.act-ic svg{width:15px!important;height:15px!important}
+.act-tx{flex:1;font-size:13px;font-weight:600}.act-dt{font-size:11.5px;white-space:nowrap}
+.filter-chips{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin:-4px 0 14px;font-size:12px}
+.fchip{display:inline-flex;align-items:center;gap:6px;background:var(--aqua-soft);color:var(--teal);font-weight:800;padding:5px 6px 5px 11px;border-radius:999px}
+.fchip button{border:0;background:rgba(0,0,0,.08);color:inherit;width:18px;height:18px;border-radius:50%;line-height:1;cursor:pointer;font-size:13px}
+.modal.modal-wide{max-width:760px}
+.row-link{cursor:pointer}.row-link:hover td{background:var(--aqua-tint)}
+@media(max-width:560px){.hbar{grid-template-columns:1fr auto}.hb-t{display:none}.dash-tools{width:100%}.dash-tools .seg-toggle{flex:1 1 100%}.seg-toggle button{flex:1;padding:8px 6px}.af-server-pill{white-space:nowrap}.af-server-pill span:last-child{display:none}}
 </style>
 </head>
 <body>
@@ -512,8 +569,8 @@ function seedData(){
       {id:'amc-3', customerId:c3, roId:r3, plan:'Basic AMC', startDate:'2026-01-22', endDate:addMonths(today,-2), amount:1800, paymentStatus:'Pending', servicesIncluded:3, servicesUsed:3, status:'Expired', terms:'3 services/year.'},
     ],
     technicians:[
-      {id:t1, name:'Suresh Patil', mobile:'9898001122', email:'suresh.p@aquaflow.in', status:'Active'},
-      {id:t2, name:'Iqbal Sheikh', mobile:'9898003344', email:'iqbal.s@aquaflow.in', status:'Active'},
+      {id:t1, name:'Suresh Patil', mobile:'9898001122', email:'suresh.p@nirmalagency.in', status:'Active'},
+      {id:t2, name:'Iqbal Sheikh', mobile:'9898003344', email:'iqbal.s@nirmalagency.in', status:'Active'},
     ],
     services:[
       {id:'svc-5001', customerId:c1, roId:r1, type:'AMC Service', requestDate:addMonths(today,0), scheduledDate:today, dueDate:today, technicianId:t1, priority:'Normal', status:'Assigned', complaint:'Routine quarterly service', remarks:'', workPerformed:'', partsUsed:[], laborCost:0, partsCost:0, additionalCharges:0, discount:0, totalAmount:0, paymentStatus:'Pending', paymentMode:'', beforePhoto:'', afterPhoto:'', signature:'', completedAt:''},
@@ -522,7 +579,7 @@ function seedData(){
       {id:'svc-5004', customerId:c1, roId:r1, type:'Filter Replacement', requestDate:addMonths(today,-3), scheduledDate:addMonths(today,-3), dueDate:addMonths(today,-3), technicianId:t2, priority:'Normal', status:'Completed', complaint:'Scheduled filter change', remarks:'Replaced pre & post carbon filters', workPerformed:'Pre-carbon & post-carbon filter replaced', partsUsed:[{name:'Pre Carbon Filter',qty:1,cost:180},{name:'Post Carbon Filter',qty:1,cost:180}], laborCost:250, partsCost:360, additionalCharges:0, discount:50, totalAmount:560, paymentStatus:'Paid', paymentMode:'Cash', beforePhoto:'', afterPhoto:'', signature:'Rakesh Mehta', completedAt:addMonths(today,-3)+'T15:05'},
       {id:'svc-5005', customerId:c3, roId:r3, type:'Complaint', requestDate:today, scheduledDate:'', dueDate:'', technicianId:'', priority:'High', status:'New', complaint:'Water has slight odor since yesterday', remarks:'', workPerformed:'', partsUsed:[], laborCost:0, partsCost:0, additionalCharges:0, discount:0, totalAmount:0, paymentStatus:'Pending', paymentMode:'', beforePhoto:'', afterPhoto:'', signature:'', completedAt:''},
     ],
-    settings:{ serviceReminderDays:[1,2,3,7], amcReminderDays:[60,30,15,7,1], companyName:'AquaFlow RO Services', pushEnabled:true },
+    settings:{ serviceReminderDays:[1,2,3,7], amcReminderDays:[60,30,15,7,1], companyName:'Nirmal Agency', pushEnabled:true },
     notificationsRead:{},
     notificationsDismissed:{},
     users:[
@@ -542,8 +599,8 @@ function migrateV4(){
   // Normalize the two demo technicians without creating duplicate Suresh/Iqbal records.
   DB.technicians = Array.isArray(DB.technicians) ? DB.technicians : [];
   const canonical = [
-    {code:'TECH-001', name:'Suresh Patil', mobile:'9898001122', email:'suresh.p@aquaflow.in'},
-    {code:'TECH-002', name:'Iqbal Sheikh', mobile:'9898003344', email:'iqbal.s@aquaflow.in'}
+    {code:'TECH-001', name:'Suresh Patil', mobile:'9898001122', email:'suresh.p@nirmalagency.in'},
+    {code:'TECH-002', name:'Iqbal Sheikh', mobile:'9898003344', email:'iqbal.s@nirmalagency.in'}
   ];
   const techIdMap = {};
   canonical.forEach((base,idx)=>{
@@ -615,7 +672,8 @@ let STATE = {
   editing: {}, // scratch for modal forms
   calMonth: new Date().getMonth(),
   calYear: new Date().getFullYear(),
-  filters:{ customers:'', ro:'', amc:'', services:'', servicesStatus:'', reqOnly:false },
+  filters:{ customers:'', ro:'', amc:'', services:'', servicesStatus:'', reqOnly:false, servicesQuick:'', servicesType:'', servicesTech:'', customersArea:'', customersStatus:'', amcQuick:'', amcEnd:'', roQuick:'' },
+  dashRange:'30',
   activeCustomerId:null,
   activeServiceId:null,
   activeTechServiceId:null,
@@ -781,12 +839,12 @@ function gateHTML(){
   return `
   <div class="af-login">
     <section class="af-login-hero">
-      <div class="af-login-brand"><div class="logo">${ic('drop')}</div><div><div class="brand">AquaFlow</div><div class="sub">RO Service &amp; AMC Manager</div></div></div>
+      <div class="af-login-brand"><div class="logo-wide"><img src="assets/nirmal-agency-logo.png" alt="Nirmal Agency"></div></div>
       <div class="af-login-copy"><span class="eyebrow">Service operations</span><h1>Run every RO service with clarity.</h1><p>Manage customers, installations, AMC plans, service schedules, technicians and job completion from one professional workspace.</p></div>
       <div class="af-feature-grid"><div class="af-feature"><strong>${ic('users')} Customer 360</strong><span>Installation, RO and service history</span></div><div class="af-feature"><strong>${ic('calendar')} Smart scheduling</strong><span>Due dates and technician jobs</span></div><div class="af-feature"><strong>${ic('shield')} AMC control</strong><span>Renewals and reminders</span></div></div>
     </section>
     <section class="af-login-panel"><div class="af-login-card">
-      <div class="af-login-head"><h2>Welcome back</h2><p>Sign in to continue to your AquaFlow workspace.</p></div>
+      <div class="af-login-head"><h2>Welcome back</h2><p>Sign in to continue to your Nirmal Agency workspace.</p></div>
       <div class="af-role-toggle"><button type="button" class="${role==='admin'?'active':''}" data-action="login-role" data-role="admin">${ic('dash')} Admin</button><button type="button" class="${role==='technician'?'active':''}" data-action="login-role" data-role="technician">${ic('tech')} Technician</button></div>
       <form data-action="submit-login" autocomplete="on">
         <input type="hidden" name="role" value="${role}">
@@ -795,7 +853,7 @@ function gateHTML(){
         <button type="submit" class="btn primary af-login-submit">${ic('logout')} Sign in</button>
       </form>
       <div class="af-demo"><strong>Demo access</strong><br>Admin: <b>admin</b> / <b>admin123</b><br>Technician: <b>suresh</b> / <b>tech123</b> &nbsp; <b>iqbal</b> / <b>tech123</b></div>
-      <div class="af-login-footer">Secure role-based workspace · AquaFlow</div>
+      <div class="af-login-footer">Secure role-based workspace · Nirmal Agency</div>
     </div></section>
   </div>`;
 }
@@ -821,7 +879,7 @@ function adminShellHTML(){
   <div class="admin-shell">
     <div class="sidebar-backdrop ${STATE.sidebarOpen?'open':''}" data-action="close-sidebar"></div>
     <aside class="sidebar ${STATE.sidebarOpen?'open':''}">
-      <div class="sb-brand"><span class="ico">${ic('drop')}</span><span>AquaFlow</span></div>
+      <div class="sb-brand"><img src="assets/nirmal-agency-logo.png" alt="Nirmal Agency"></div>
       <nav class="sb-nav">
         ${ADMIN_NAV.map(n=>`<button class="sb-item ${STATE.adminView===n.id?'active':''}" data-action="nav" data-view="${n.id}">${ic(n.icon)}<span>${n.label}</span>${n.id==='notifications'&&notifCount?`<span class="badge b-red" style="margin-left:auto">${notifCount}</span>`:''}</button>`).join('')}
       </nav>
@@ -869,124 +927,277 @@ function adminViewHTML(){
 }
 
 /* ---------------- DASHBOARD ---------------- */
+/* Everything on the dashboard is computed from the live data set (DB) and every number, bar, slice and row
+   is a button: it either opens a pre-filtered list or a drill-down. */
+const DASH_RANGES = [['7','7 days'],['30','30 days'],['90','90 days'],['365','12 months']];
+const SQ_LABEL = {overdue:'Overdue services',dueToday:'Due today',dueTomorrow:'Due tomorrow',open:'Open requests',assigned:'Assigned / scheduled',inprogress:'In progress',completed:'Completed services',unpaid:'Payment pending',paid:'Paid services',unassigned:'Unassigned services',upcoming:'Next 7 days'};
+const STATUS_COLORS = {New:'#6B7A80',Pending:'#8CA0A8',Scheduled:'#0EA5B7',Assigned:'#2F7DD1','On the Way':'#7A5AF8','In Progress':'#B4690E','Waiting for Parts':'#D9A441',Completed:'#1E7A46',Cancelled:'#C23A2E',Rescheduled:'#E08A3C','Customer Not Available':'#9B2C5E'};
+const dEsc = s => String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const dayShift = (iso,n)=>{ const d=new Date(iso+'T00:00:00Z'); d.setUTCDate(d.getUTCDate()+n); return d.toISOString().slice(0,10); };
+const svcDay = s => (s.completedAt||s.scheduledDate||s.requestDate||'').slice(0,10);
+const sumBy = (arr,f)=>arr.reduce((a,x)=>a+Number(f(x)||0),0);
+const isOpenSvc = s => !['Completed','Cancelled'].includes(s.status);
+function fmtK(n){ n=Number(n||0); if(n>=1e7) return '₹'+(n/1e7).toFixed(1)+'Cr'; if(n>=1e5) return '₹'+(n/1e5).toFixed(1)+'L'; if(n>=1e3) return '₹'+(n/1e3).toFixed(1)+'k'; return '₹'+Math.round(n); }
+function monthLabel(ym){ const d=new Date(ym+'-01T00:00:00Z'); return isNaN(d)?ym:d.toLocaleDateString('en-IN',{month:'short',year:'numeric',timeZone:'UTC'}); }
+function goAttrs(o){ return 'data-action="dash-go" '+Object.entries(o).map(([k,v])=>`data-${k}="${dEsc(v)}"`).join(' '); }
+
+function svcQuick(s,k){
+  switch(k){
+    case 'overdue': return isOverdue(s);
+    case 'dueToday': return isDueToday(s);
+    case 'dueTomorrow': return isDueTomorrow(s);
+    case 'open': return ['New','Pending'].includes(s.status);
+    case 'assigned': return ['Assigned','Scheduled','On the Way'].includes(s.status);
+    case 'inprogress': return ['In Progress','Waiting for Parts'].includes(s.status);
+    case 'completed': return s.status==='Completed';
+    case 'unpaid': return s.status==='Completed' && s.paymentStatus!=='Paid';
+    case 'paid': return s.paymentStatus==='Paid';
+    case 'unassigned': return !s.technicianId && isOpenSvc(s);
+    case 'upcoming': { const d=(s.dueDate||s.scheduledDate||''); return isOpenSvc(s) && d>=todayISO() && d<=dayShift(todayISO(),7); }
+    default: return true;
+  }
+}
+function resetDashFilters(){ Object.assign(STATE.filters,{servicesQuick:'',servicesType:'',servicesTech:'',customersArea:'',customersStatus:'',amcQuick:'',amcEnd:'',roQuick:''}); }
+const FILTER_LABELS = {
+  servicesQuick:v=>SQ_LABEL[v]||v, servicesType:v=>'Type: '+v, servicesTech:v=>'Technician: '+techName(v),
+  customersArea:v=>'Area: '+v, customersStatus:v=>'Status: '+v,
+  amcQuick:v=>({active:'Active AMC',expiring:'Expiring soon',expired:'Expired',unpaid:'Payment pending'})[v]||v,
+  amcEnd:v=>'Expiring in '+monthLabel(v), roQuick:v=>({overdue:'Service overdue',active:'Active machines'})[v]||v
+};
+function filterChips(keys){
+  const F=STATE.filters; const act=keys.filter(k=>F[k]); if(!act.length) return '';
+  return `<div class="filter-chips"><span class="muted">Filtered by</span>${act.map(k=>`<span class="fchip">${dEsc(FILTER_LABELS[k](F[k]))}<button type="button" data-action="clear-filter" data-key="${k}" aria-label="Remove filter">×</button></span>`).join('')}<button type="button" class="btn ghost sm" data-action="clear-filter" data-key="*">Clear all</button><button type="button" class="btn ghost sm" data-action="nav" data-view="dashboard">${ic('chevL')} Dashboard</button></div>`;
+}
+function dashGo(el){
+  const g=n=>el.getAttribute('data-'+n)||'';
+  const F=STATE.filters; resetDashFilters(); F.servicesStatus=''; F.services=''; F.customers=''; F.amc=''; F.ro='';
+  STATE.modal=null; STATE.sidebarOpen=false; STATE.activeCustomerId=null; STATE.activeServiceId=null;
+  if(g('cust')){ STATE.adminView='customers'; STATE.activeCustomerId=g('cust'); }
+  else if(g('svc')){ STATE.adminView='services'; STATE.activeServiceId=g('svc'); }
+  else {
+    F.servicesQuick=g('sq'); F.servicesStatus=g('status'); F.servicesType=g('type'); F.servicesTech=g('tech');
+    F.customersArea=g('area'); F.customersStatus=g('cstatus'); F.amcQuick=g('amcq'); F.amcEnd=g('amcend'); F.roQuick=g('roq');
+    STATE.adminView=g('view')||'services';
+  }
+  render(); window.scrollTo(0,0);
+}
+
+/* ---- analytics (pure functions of DB) ---- */
+function dashPeriod(range){
+  const today=todayISO();
+  if(range==='365'){ const d=new Date(today+'T00:00:00Z'); d.setUTCDate(1); d.setUTCMonth(d.getUTCMonth()-11); const n=Math.round((new Date(today+'T00:00:00Z')-d)/864e5)+1; return {from:d.toISOString().slice(0,10),to:today,n,monthly:true}; }
+  const n=Number(range)||30; return {from:dayShift(today,-(n-1)),to:today,n,monthly:false};
+}
+function dashBuckets(P){
+  const out=[];
+  if(P.monthly){
+    const d=new Date(P.from+'T00:00:00Z');
+    for(let i=0;i<12;i++){ const e=new Date(d); e.setUTCMonth(e.getUTCMonth()+1); e.setUTCDate(0);
+      out.push({from:d.toISOString().slice(0,10),to:e.toISOString().slice(0,10),label:d.toLocaleDateString('en-IN',{month:'short',timeZone:'UTC'})}); d.setUTCMonth(d.getUTCMonth()+1); }
+  } else {
+    const size=P.n<=7?1:P.n<=30?5:15;
+    for(let a=P.from;a<=P.to;a=dayShift(a,size)){ let e=dayShift(a,size-1); if(e>P.to) e=P.to; out.push({from:a,to:e,label:new Date(a+'T00:00:00Z').toLocaleDateString('en-IN',{day:'numeric',month:'short',timeZone:'UTC'})}); }
+  }
+  return out;
+}
+function revItems(a,b){
+  const sv=DB.services.filter(s=>s.paymentStatus==='Paid' && s.status!=='Cancelled' && svcDay(s)>=a && svcDay(s)<=b).map(s=>({kind:'service',id:s.id,customerId:s.customerId,date:svcDay(s),title:s.type||'Service',amount:Number(s.totalAmount||0)}));
+  const am=DB.amcs.filter(x=>x.paymentStatus==='Paid' && x.status!=='Cancelled' && (x.startDate||'')>=a && (x.startDate||'')<=b).map(x=>({kind:'amc',id:x.id,customerId:x.customerId,date:x.startDate,title:'AMC — '+(x.plan||''),amount:Number(x.amount||0)}));
+  return sv.concat(am);
+}
+function dashAnalytics(range){
+  const P=dashPeriod(range), svc=DB.services, today=todayISO();
+  const pFrom=dayShift(P.from,-P.n), pTo=dayShift(P.from,-1);
+  const rev=revItems(P.from,P.to), prevRev=revItems(pFrom,pTo);
+  const revenue=sumBy(rev,x=>x.amount), prevRevenue=sumBy(prevRev,x=>x.amount);
+  const svcRev=sumBy(rev.filter(x=>x.kind==='service'),x=>x.amount);
+  const doneIn=(a,b)=>svc.filter(s=>s.status==='Completed' && svcDay(s)>=a && svcDay(s)<=b);
+  const done=doneIn(P.from,P.to), prevDone=doneIn(pFrom,pTo);
+  const billed=sumBy(done,s=>s.totalAmount), collected=sumBy(done.filter(s=>s.paymentStatus==='Paid'),s=>s.totalAmount);
+  const withTurn=done.filter(s=>s.requestDate && svcDay(s));
+  const turnaround=withTurn.length? sumBy(withTurn,s=>Math.max(0,(new Date(svcDay(s))-new Date(s.requestDate.slice(0,10)))/864e5))/withTurn.length : null;
+  const withDue=done.filter(s=>s.dueDate);
+  const onTime=withDue.length? Math.round(withDue.filter(s=>svcDay(s)<=s.dueDate).length/withDue.length*100) : null;
+  const newCustIn=(a,b)=>DB.customers.filter(c=>{ const d=(c.createdAt||'').slice(0,10); return d>=a && d<=b; });
+  const buckets=dashBuckets(P).map(b=>{ const r=revItems(b.from,b.to); return {...b, svcRev:sumBy(r.filter(x=>x.kind==='service'),x=>x.amount), amcRev:sumBy(r.filter(x=>x.kind==='amc'),x=>x.amount), done:doneIn(b.from,b.to).length}; });
+  const inPeriod=svc.filter(s=>svcDay(s)>=P.from && svcDay(s)<=P.to);
+  const typeMix={}; inPeriod.forEach(s=>{ const k=s.type||'Service'; typeMix[k]=(typeMix[k]||0)+1; });
+  const statusCounts={}; svc.forEach(s=>{ statusCounts[s.status]=(statusCounts[s.status]||0)+1; });
+  const areaMix={}; DB.customers.forEach(c=>{ const k=c.area||c.city||'Unknown'; areaMix[k]=(areaMix[k]||0)+1; });
+  const byCust={}; rev.forEach(x=>{ byCust[x.customerId]=(byCust[x.customerId]||0)+x.amount; });
+  const topCustomers=Object.entries(byCust).sort((a,b)=>b[1]-a[1]).slice(0,5);
+  const amcMonths=[]; for(let i=0;i<6;i++){ const d=new Date(today.slice(0,7)+'-01T00:00:00Z'); d.setUTCMonth(d.getUTCMonth()+i); const ym=d.toISOString().slice(0,7); amcMonths.push({ym,count:DB.amcs.filter(a=>a.status!=='Cancelled' && (a.endDate||'').slice(0,7)===ym).length,value:sumBy(DB.amcs.filter(a=>a.status!=='Cancelled' && (a.endDate||'').slice(0,7)===ym),a=>a.amount)}); }
+  const techs=DB.technicians.map(t=>{ const mine=svc.filter(s=>s.technicianId===t.id); const d=done.filter(s=>s.technicianId===t.id); const wd=d.filter(s=>s.dueDate);
+    return {t,open:mine.filter(isOpenSvc).length,done:d.length,onTime:wd.length?Math.round(wd.filter(s=>svcDay(s)<=s.dueDate).length/wd.length*100):null,revenue:sumBy(d.filter(s=>s.paymentStatus==='Paid'),s=>s.totalAmount),overdue:mine.filter(isOverdue).length}; });
+  const upcoming=svc.filter(s=>svcQuick(s,'upcoming')).sort((a,b)=>(a.dueDate||a.scheduledDate||'').localeCompare(b.dueDate||b.scheduledDate||'')).slice(0,8);
+  const unpaid=svc.filter(s=>svcQuick(s,'unpaid'));
+  const events=[];
+  svc.forEach(s=>{ if(s.status==='Completed' && s.completedAt) events.push({d:s.completedAt,txt:`${s.type||'Service'} completed for ${custName(s.customerId)}`,ic:'check',a:{svc:s.id}}); else if(s.requestDate) events.push({d:s.requestDate,txt:`${s.type||'Service'} requested by ${custName(s.customerId)}`,ic:'clipboard',a:{svc:s.id}}); });
+  DB.customers.forEach(c=>{ if(c.createdAt) events.push({d:c.createdAt,txt:`New customer ${c.name}`,ic:'users',a:{cust:c.id}}); });
+  DB.amcs.forEach(a=>{ if(a.createdAt||a.startDate) events.push({d:a.createdAt||a.startDate,txt:`AMC ${a.plan||''} for ${custName(a.customerId)}`,ic:'shield',a:{view:'amc'}}); });
+  events.sort((a,b)=>String(b.d).localeCompare(String(a.d)));
+  return {P,pFrom,pTo,revenue,prevRevenue,svcRev,amcRev:revenue-svcRev,done:done.length,prevDone:prevDone.length,billed,collected,turnaround,onTime,
+    newCust:newCustIn(P.from,P.to).length,prevNewCust:newCustIn(pFrom,pTo).length,buckets,typeMix,statusCounts,areaMix,topCustomers,amcMonths,techs,upcoming,events:events.slice(0,8),
+    totalCust:DB.customers.length,activeCust:DB.customers.filter(c=>c.status==='Active').length,totalRO:DB.roMachines.length,
+    activeAMC:DB.amcs.filter(a=>amcStatus(a)==='Active').length,expiringAMC:DB.amcs.filter(a=>amcStatus(a)==='Expiring Soon').length,
+    dueToday:svc.filter(isDueToday).length,dueTomorrow:svc.filter(isDueTomorrow).length,overdue:svc.filter(isOverdue).length,
+    openReq:svc.filter(s=>svcQuick(s,'open')).length,assigned:svc.filter(s=>svcQuick(s,'assigned')).length,unassigned:svc.filter(s=>svcQuick(s,'unassigned')).length,
+    pendingAmt:sumBy(unpaid,s=>s.totalAmount),pendingCnt:unpaid.length};
+}
+
+/* ---- small chart/kpi builders ---- */
+function deltaHTML(cur,prev,label){
+  if(!prev && !cur) return `<div class="delta flat">— no change vs previous ${label}</div>`;
+  const p=prev? Math.round((cur-prev)/prev*100) : 100; const cls=p>0?'up':p<0?'down':'flat';
+  return `<div class="delta ${cls}">${p>0?'▲':p<0?'▼':'■'} ${p>0?'+':''}${p}% vs previous ${label}</div>`;
+}
+function kpi(label,value,cls,go,sub){
+  return `<button type="button" class="stat-card clickable ${cls||''}" ${goAttrs(go)} title="Click to view details"><div class="label">${label}</div><div class="value">${value}</div>${sub||''}</button>`;
+}
+function hbars(items,color){
+  const max=Math.max(1,...items.map(i=>i.value));
+  if(!items.length) return '<div class="muted" style="padding:6px 0">No data for this period.</div>';
+  return `<div class="hbars">${items.map(i=>`<button type="button" class="hbar" ${goAttrs(i.go)} title="${dEsc(i.label)} — click to view"><span class="hb-l">${dEsc(i.label)}</span><span class="hb-t"><span class="hb-f" style="width:${Math.max(3,i.value/max*100)}%;background:${color}"></span></span><span class="hb-v">${i.text}</span></button>`).join('')}</div>`;
+}
+function donutSVG(counts){
+  const entries=Object.entries(counts).sort((a,b)=>b[1]-a[1]); const total=entries.reduce((a,[,v])=>a+v,0)||1; let acc=0;
+  const segs=entries.map(([k,v])=>{ const pct=v/total*100; const el=`<circle class="dseg" r="15.9155" cx="21" cy="21" fill="none" stroke="${STATUS_COLORS[k]||'#999'}" stroke-width="6" stroke-dasharray="${pct} ${100-pct}" stroke-dashoffset="${25-acc}" ${goAttrs({status:k})} tabindex="0" role="button" aria-label="${dEsc(k)}: ${v}"><title>${dEsc(k)} — ${v} (${Math.round(pct)}%)</title></circle>`; acc+=pct; return el; }).join('');
+  return `<div class="donut-wrap"><svg class="donut-svg" viewBox="0 0 42 42" role="img" aria-label="Services by status"><circle r="15.9155" cx="21" cy="21" fill="none" stroke="var(--surface-3)" stroke-width="6"/>${segs}<text x="21" y="21.5" text-anchor="middle" class="d-total">${total===1&&!entries.length?0:entries.reduce((a,[,v])=>a+v,0)}</text><text x="21" y="26" text-anchor="middle" class="d-sub">services</text></svg>
+    <div class="legend">${entries.map(([k,v])=>`<button type="button" class="li lg-btn" ${goAttrs({status:k})}><span class="dot" style="background:${STATUS_COLORS[k]||'#999'}"></span>${dEsc(k)} — <strong>${v}</strong></button>`).join('')||'<div class="muted">No services yet.</div>'}</div></div>`;
+}
+function livePillHTML(){
+  const on=!!(window.AquaFlow && window.AquaFlow.serverMode); const at=window.AquaFlowV9 && window.AquaFlowV9.lastSync;
+  if(on) return `<span class="dot"></span><span>Live database${at?' · updated '+at.toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit',second:'2-digit'}):''}</span>`;
+  return `<span class="dot"></span><span>Offline · showing data saved on this device</span>`;
+}
+
 function viewDashboard(){
-  const svc = DB.services;
-  const totalCust = DB.customers.length;
-  const activeCust = DB.customers.filter(c=>c.status==='Active').length;
-  const totalRO = DB.roMachines.length;
-  const activeAMC = DB.amcs.filter(a=>amcStatus(a)==='Active').length;
-  const expiringAMC = DB.amcs.filter(a=>amcStatus(a)==='Expiring Soon').length;
-  const dueToday = svc.filter(isDueToday).length;
-  const dueTomorrow = svc.filter(isDueTomorrow).length;
-  const overdue = svc.filter(isOverdue).length;
-  const openReq = svc.filter(s=>['New','Pending'].includes(s.status)).length;
-  const assigned = svc.filter(s=>['Assigned','Scheduled','On the Way'].includes(s.status)).length;
-  const completed = svc.filter(s=>s.status==='Completed').length;
-  const pendingPay = svc.filter(s=>s.paymentStatus==='Pending' && s.status==='Completed').reduce((a,s)=>a+Number(s.totalAmount||0),0);
-  const totalRevenue = svc.filter(s=>s.paymentStatus==='Paid').reduce((a,s)=>a+Number(s.totalAmount||0),0);
-  const thisMonth = todayISO().slice(0,7);
-  const monthlyRevenue = svc.filter(s=>s.paymentStatus==='Paid' && (s.completedAt||'').slice(0,7)===thisMonth).reduce((a,s)=>a+Number(s.totalAmount||0),0);
-
-  const cards = [
-    ['Total Customers', totalCust, ''],
-    ['Active Customers', activeCust, 'good'],
-    ['Total RO Machines', totalRO, ''],
-    ['Active AMC', activeAMC, 'good'],
-    ['AMC Expiring Soon', expiringAMC, expiringAMC?'warn':''],
-    ['Services Due Today', dueToday, dueToday?'warn':''],
-    ['Services Due Tomorrow', dueTomorrow, ''],
-    ['Overdue Services', overdue, overdue?'danger':''],
-    ['Open Service Requests', openReq, openReq?'warn':''],
-    ['Assigned Services', assigned, ''],
-    ['Completed Services', completed, 'good'],
-    ['Pending Payments', money(pendingPay), pendingPay?'warn':''],
-    ['Total Revenue', money(totalRevenue), 'good'],
-    ['Monthly Revenue', money(monthlyRevenue), 'good'],
-  ];
-
-  // monthly service count last 6 months
-  const months=[];
-  for(let i=5;i>=0;i--){ const d=new Date(); d.setDate(1); d.setMonth(d.getMonth()-i); months.push(d.toISOString().slice(0,7)); }
-  const counts = months.map(m=> svc.filter(s=>(s.completedAt||s.scheduledDate||'').slice(0,7)===m).length);
-  const maxCount = Math.max(1,...counts);
-  const revByMonth = months.map(m=> svc.filter(s=>s.paymentStatus==='Paid' && (s.completedAt||'').slice(0,7)===m).reduce((a,s)=>a+Number(s.totalAmount||0),0));
-  const maxRev = Math.max(1,...revByMonth);
-
-  const statusCounts = {};
-  svc.forEach(s=>{ statusCounts[s.status]=(statusCounts[s.status]||0)+1; });
-  const statusColors = {New:'#6B7A80',Pending:'#6B7A80',Scheduled:'#0EA5B7',Assigned:'#0EA5B7','On the Way':'#0EA5B7','In Progress':'#B4690E','Waiting for Parts':'#B4690E',Completed:'#1E7A46',Cancelled:'#C23A2E',Rescheduled:'#B4690E','Customer Not Available':'#C23A2E'};
-  const donutStops = [];
-  let acc=0;
-  const total = svc.length||1;
-  Object.entries(statusCounts).forEach(([k,v])=>{ const pct=v/total*100; donutStops.push(`${statusColors[k]||'#999'} ${acc}% ${acc+pct}%`); acc+=pct; });
-
+  STATE.dashRange = STATE.dashRange || '30';
+  const A=dashAnalytics(STATE.dashRange); const P=A.P; const rl=(DASH_RANGES.find(r=>r[0]===STATE.dashRange)||[0,'period'])[1];
+  window.__dashBuckets=A.buckets;
+  const maxRev=Math.max(1,...A.buckets.map(b=>b.svcRev+b.amcRev)); const maxDone=Math.max(1,...A.buckets.map(b=>b.done)); const maxAmc=Math.max(1,...A.amcMonths.map(m=>m.count));
+  const alerts=[
+    A.overdue && {cls:'danger',txt:`${A.overdue} overdue service${A.overdue>1?'s':''}`,go:{sq:'overdue'}},
+    A.unassigned && {cls:'warn',txt:`${A.unassigned} service${A.unassigned>1?'s':''} without a technician`,go:{sq:'unassigned'}},
+    A.expiringAMC && {cls:'warn',txt:`${A.expiringAMC} AMC expiring within 30 days`,go:{view:'amc',amcq:'expiring'}},
+    A.pendingCnt && {cls:'warn',txt:`${money(A.pendingAmt)} payment pending (${A.pendingCnt})`,go:{sq:'unpaid'}},
+    A.dueToday && {cls:'info',txt:`${A.dueToday} service${A.dueToday>1?'s':''} due today`,go:{sq:'dueToday'}},
+  ].filter(Boolean);
   return `
+  <div class="dash-head">
+    <div><h2 class="dash-title">${dEsc((DB.settings&&DB.settings.companyName)||'Nirmal Agency')} — Business overview</h2><div class="muted" style="font-size:12.5px">${fmtDate(P.from)} – ${fmtDate(P.to)} · compared with the previous ${rl}</div></div>
+    <div class="dash-tools">
+      <div class="seg-toggle" role="group" aria-label="Date range">${DASH_RANGES.map(([v,l])=>`<button type="button" class="${STATE.dashRange===v?'active':''}" data-action="dash-range" data-range="${v}">${l}</button>`).join('')}</div>
+      <span id="af-live-pill" class="live-pill ${window.AquaFlow&&window.AquaFlow.serverMode?'online':'offline'}">${livePillHTML()}</span>
+      <button type="button" class="btn sm" data-action="dash-refresh" title="Reload from database">${ic('history')} Refresh</button>
+      <button type="button" class="btn sm" data-action="dash-export">${ic('download')} Export</button>
+    </div>
+  </div>
+  <div class="alert-strip">${alerts.length? alerts.map(a=>`<button type="button" class="alert-chip ${a.cls}" ${goAttrs(a.go)}>${dEsc(a.txt)} <span aria-hidden="true">›</span></button>`).join('') : `<span class="alert-chip ok">${ic('check')} All clear — nothing needs attention right now</span>`}</div>
+
+  <div class="dash-sec">Performance · last ${rl}</div>
   <div class="cards-row">
-    ${cards.map(([l,v,cls])=>`<div class="stat-card ${cls}"><div class="label">${l}</div><div class="value">${v}</div></div>`).join('')}
+    ${kpi('Revenue',money(A.revenue),'good',{sq:'paid'},`<div class="sub">Services ${money(A.svcRev)} · AMC ${money(A.amcRev)}</div>`+deltaHTML(A.revenue,A.prevRevenue,rl))}
+    ${kpi('Services completed',A.done,'good',{sq:'completed'},deltaHTML(A.done,A.prevDone,rl))}
+    ${kpi('Collection rate',A.billed?Math.round(A.collected/A.billed*100)+'%':'—',A.billed&&A.collected<A.billed?'warn':'good',{sq:'unpaid'},`<div class="sub">${money(A.collected)} of ${money(A.billed)} billed</div>`)}
+    ${kpi('Avg turnaround',A.turnaround==null?'—':A.turnaround.toFixed(1)+' days','',{sq:'completed'},`<div class="sub">${A.onTime==null?'No due dates set':'On-time completion '+A.onTime+'%'}</div>`)}
+    ${kpi('New customers',A.newCust,'',{view:'customers'},deltaHTML(A.newCust,A.prevNewCust,rl))}
   </div>
+
+  <div class="dash-sec">Operations · right now</div>
+  <div class="cards-row">
+    ${kpi('Overdue services',A.overdue,A.overdue?'danger':'',{sq:'overdue'})}
+    ${kpi('Due today',A.dueToday,A.dueToday?'warn':'',{sq:'dueToday'})}
+    ${kpi('Due tomorrow',A.dueTomorrow,'',{sq:'dueTomorrow'})}
+    ${kpi('Open requests',A.openReq,A.openReq?'warn':'',{sq:'open'})}
+    ${kpi('Unassigned',A.unassigned,A.unassigned?'warn':'',{sq:'unassigned'})}
+    ${kpi('Assigned / scheduled',A.assigned,'',{sq:'assigned'})}
+    ${kpi('Payment pending',money(A.pendingAmt),A.pendingAmt?'warn':'',{sq:'unpaid'},`<div class="sub">${A.pendingCnt} completed job${A.pendingCnt===1?'':'s'}</div>`)}
+    ${kpi('Active AMC',A.activeAMC,'good',{view:'amc',amcq:'active'})}
+    ${kpi('AMC expiring soon',A.expiringAMC,A.expiringAMC?'warn':'',{view:'amc',amcq:'expiring'})}
+    ${kpi('Active customers',A.activeCust,'good',{view:'customers',cstatus:'Active'},`<div class="sub">of ${A.totalCust} total</div>`)}
+    ${kpi('RO machines',A.totalRO,'',{view:'ro'})}
+  </div>
+
   <div class="grid2">
-    <div class="panel">
-      <div class="panel-head"><h2>Monthly service count</h2></div>
-      <div class="panel-body">
-        <div class="bars">
-          ${months.map((m,i)=>`<div class="bar-col"><div class="val">${counts[i]}</div><div class="bar" style="height:${counts[i]/maxCount*100}%"></div><div class="lbl">${new Date(m+'-01').toLocaleDateString('en-IN',{month:'short'})}</div></div>`).join('')}
-        </div>
-      </div>
-    </div>
-    <div class="panel">
-      <div class="panel-head"><h2>Monthly revenue</h2></div>
-      <div class="panel-body">
-        <div class="bars">
-          ${months.map((m,i)=>`<div class="bar-col"><div class="val">₹${(revByMonth[i]/1000).toFixed(1)}k</div><div class="bar" style="height:${revByMonth[i]/maxRev*100}%; background:var(--aqua)"></div><div class="lbl">${new Date(m+'-01').toLocaleDateString('en-IN',{month:'short'})}</div></div>`).join('')}
-        </div>
-      </div>
-    </div>
+    <div class="panel"><div class="panel-head"><h2>Revenue trend</h2><div class="legend-inline"><span><i class="sw a"></i>Services</span><span><i class="sw b"></i>AMC</span></div></div>
+      <div class="panel-body"><div class="bars">${A.buckets.map((b,i)=>{ const t=b.svcRev+b.amcRev; const h=t/maxRev*100;
+        return `<button type="button" class="bar-col bc-btn" data-action="dash-bucket" data-kind="rev" data-idx="${i}" title="${dEsc(b.label)}: ${money(t)} — click for payments"><div class="val">${t?fmtK(t):''}</div><div class="stack" style="height:${t?Math.max(h,4):1}%"><div class="seg b" style="flex:${b.amcRev}"></div><div class="seg a" style="flex:${b.svcRev}"></div></div><div class="lbl">${dEsc(b.label)}</div></button>`; }).join('')}</div>
+      <div class="chart-hint">${A.revenue?'Click a bar to see the payments behind it':'No payments recorded in this period yet'}</div></div></div>
+    <div class="panel"><div class="panel-head"><h2>Services completed</h2></div>
+      <div class="panel-body"><div class="bars">${A.buckets.map((b,i)=>`<button type="button" class="bar-col bc-btn" data-action="dash-bucket" data-kind="svc" data-idx="${i}" title="${dEsc(b.label)}: ${b.done} completed — click for list"><div class="val">${b.done||''}</div><div class="stack" style="height:${b.done?Math.max(b.done/maxDone*100,4):1}%"><div class="seg a" style="flex:1"></div></div><div class="lbl">${dEsc(b.label)}</div></button>`).join('')}</div>
+      <div class="chart-hint">${A.done?'Click a bar to see the completed jobs':'No completed jobs in this period yet'}</div></div></div>
   </div>
+
   <div class="grid2">
-    <div class="panel">
-      <div class="panel-head"><h2>Service status distribution</h2></div>
-      <div class="panel-body">
-        <div class="donut-wrap">
-          <div class="donut" style="background:conic-gradient(${donutStops.join(',')})"></div>
-          <div class="legend">${Object.entries(statusCounts).map(([k,v])=>`<div class="li"><span class="dot" style="background:${statusColors[k]||'#999'}"></span>${k} — ${v}</div>`).join('')}</div>
-        </div>
-      </div>
-    </div>
-    <div class="panel">
-      <div class="panel-head"><h2>AMC expiry trend (next 6 months)</h2></div>
-      <div class="panel-body">
-        <div class="bars">
-        ${(()=>{ const m2=[]; for(let i=0;i<6;i++){ const d=new Date(); d.setDate(1); d.setMonth(d.getMonth()+i); m2.push(d.toISOString().slice(0,7)); }
-          const c2 = m2.map(m=>DB.amcs.filter(a=>a.status!=='Cancelled' && a.endDate.slice(0,7)===m).length);
-          const mx=Math.max(1,...c2);
-          return m2.map((m,i)=>`<div class="bar-col"><div class="val">${c2[i]}</div><div class="bar" style="height:${c2[i]/mx*100}%; background:var(--amber)"></div><div class="lbl">${new Date(m+'-01').toLocaleDateString('en-IN',{month:'short'})}</div></div>`).join(''); })()}
-        </div>
-      </div>
-    </div>
+    <div class="panel"><div class="panel-head"><h2>Service status (all jobs)</h2></div><div class="panel-body">${donutSVG(A.statusCounts)}</div></div>
+    <div class="panel"><div class="panel-head"><h2>Service types · last ${rl}</h2></div><div class="panel-body">${hbars(Object.entries(A.typeMix).sort((a,b)=>b[1]-a[1]).slice(0,6).map(([k,v])=>({label:k,value:v,text:v,go:{type:k}})),'var(--aqua)')}</div></div>
   </div>
-  <div class="panel">
-    <div class="panel-head"><h2>Technician performance (completed jobs)</h2></div>
-    <div class="panel-body">
-      <div class="table-wrap"><table><thead><tr><th>Technician</th><th>Assigned</th><th>Completed</th><th>Overdue in queue</th></tr></thead><tbody>
-        ${DB.technicians.map(t=>{ const mine=svc.filter(s=>s.technicianId===t.id); const comp=mine.filter(s=>s.status==='Completed').length; const ov=mine.filter(isOverdue).length;
-          return `<tr><td><strong>${t.name}</strong></td><td>${mine.length}</td><td>${comp}</td><td>${ov?`<span class="badge b-red">${ov}</span>`:'0'}</td></tr>`; }).join('')}
-      </tbody></table></div>
-    </div>
+
+  <div class="grid2">
+    <div class="panel"><div class="panel-head"><h2>AMC renewals due · next 6 months</h2></div><div class="panel-body"><div class="bars">${A.amcMonths.map(m=>`<button type="button" class="bar-col bc-btn" ${goAttrs({view:'amc',amcend:m.ym})} title="${monthLabel(m.ym)}: ${m.count} AMC, ${money(m.value)}"><div class="val">${m.count||''}</div><div class="stack" style="height:${m.count?Math.max(m.count/maxAmc*100,4):1}%"><div class="seg c" style="flex:1"></div></div><div class="lbl">${new Date(m.ym+'-01T00:00:00Z').toLocaleDateString('en-IN',{month:'short',timeZone:'UTC'})}</div></button>`).join('')}</div><div class="chart-hint">Click a month to list the contracts</div></div></div>
+    <div class="panel"><div class="panel-head"><h2>Customers by area</h2></div><div class="panel-body">${hbars(Object.entries(A.areaMix).sort((a,b)=>b[1]-a[1]).slice(0,6).map(([k,v])=>({label:k,value:v,text:v,go:{view:'customers',area:k}})),'var(--teal)')}</div></div>
   </div>
-  <div class="panel-head" style="border:none;padding:0 0 10px"><h2 style="font-size:16px">Quick actions</h2></div>
+
+  <div class="panel"><div class="panel-head"><h2>Technician performance · last ${rl}</h2></div><div class="panel-body pad0"><div class="table-wrap"><table><thead><tr><th>Technician</th><th>Open jobs</th><th>Completed</th><th>On-time</th><th>Revenue</th><th>Overdue</th></tr></thead><tbody>
+    ${A.techs.length? A.techs.map(r=>`<tr class="row-link" ${goAttrs({tech:r.t.id})}><td><strong>${dEsc(r.t.name)}</strong></td><td>${r.open}</td><td>${r.done}</td><td>${r.onTime==null?'—':r.onTime+'%'}</td><td>${money(r.revenue)}</td><td>${r.overdue?`<span class="badge b-red">${r.overdue}</span>`:'0'}</td></tr>`).join('') : '<tr><td colspan="6" class="muted">No technicians yet.</td></tr>'}
+  </tbody></table></div></div></div>
+
+  <div class="grid2">
+    <div class="panel"><div class="panel-head"><h2>Upcoming · next 7 days</h2><button type="button" class="btn ghost sm" ${goAttrs({sq:'upcoming'})}>View all</button></div><div class="panel-body pad0"><div class="table-wrap"><table><thead><tr><th>Customer</th><th>Type</th><th>Due</th><th>Technician</th></tr></thead><tbody>
+      ${A.upcoming.length? A.upcoming.map(s=>`<tr class="row-link" ${goAttrs({svc:s.id})}><td><strong>${dEsc(custName(s.customerId))}</strong></td><td>${dEsc(s.type)}</td><td>${fmtDate(s.dueDate||s.scheduledDate)}</td><td>${dEsc(techName(s.technicianId))}</td></tr>`).join('') : '<tr><td colspan="4" class="muted">Nothing scheduled in the next 7 days.</td></tr>'}
+    </tbody></table></div></div></div>
+    <div class="panel"><div class="panel-head"><h2>Top customers · last ${rl}</h2></div><div class="panel-body">${hbars(A.topCustomers.map(([id,v])=>({label:custName(id),value:v,text:money(v),go:{cust:id}})),'var(--green)')}</div></div>
+  </div>
+
+  <div class="panel"><div class="panel-head"><h2>Recent activity</h2></div><div class="panel-body pad0"><div class="activity">
+    ${A.events.length? A.events.map(e=>`<button type="button" class="act-row" ${goAttrs(e.a)}><span class="act-ic">${ic(e.ic)}</span><span class="act-tx">${dEsc(e.txt)}</span><span class="act-dt muted">${fmtDate(String(e.d).slice(0,10))}</span></button>`).join('') : '<div class="muted" style="padding:16px">No activity yet.</div>'}
+  </div></div></div>
+
+  <div class="dash-sec">Quick actions</div>
   <div class="search-row" style="margin-bottom:20px">
     <button class="btn primary" data-action="add-customer">${ic('plus')} Add Customer</button>
     <button class="btn primary" data-action="add-ro">${ic('plus')} Add RO</button>
     <button class="btn primary" data-action="add-service">${ic('plus')} Create Service</button>
     <button class="btn primary" data-action="add-amc">${ic('plus')} Create AMC</button>
     <button class="btn" data-action="nav" data-view="technicians">${ic('tech')} Assign Technician</button>
+    <button class="btn" data-action="nav" data-view="reports">${ic('chart')} Reports</button>
   </div>`;
 }
 
-/* ---------------- CUSTOMERS ---------------- */
+function dashBucket(i,kind){
+  const b=(window.__dashBuckets||[])[i]; if(!b) return;
+  let rows, total, title, head;
+  if(kind==='svc'){
+    const list=DB.services.filter(s=>s.status==='Completed' && svcDay(s)>=b.from && svcDay(s)<=b.to).sort((x,y)=>svcDay(y).localeCompare(svcDay(x)));
+    title='Services completed · '+b.label; total=`${list.length} job${list.length===1?'':'s'}`;
+    head='<th>Date</th><th>Customer</th><th>Type</th><th>Technician</th><th>Amount</th>';
+    rows=list.map(s=>`<tr class="row-link" ${goAttrs({svc:s.id})}><td>${fmtDate(svcDay(s))}</td><td><strong>${dEsc(custName(s.customerId))}</strong></td><td>${dEsc(s.type)}</td><td>${dEsc(techName(s.technicianId))}</td><td>${money(s.totalAmount)}</td></tr>`).join('');
+  } else {
+    const list=revItems(b.from,b.to).sort((x,y)=>String(y.date).localeCompare(String(x.date)));
+    title='Revenue · '+b.label; total=`${list.length} payment${list.length===1?'':'s'} · ${money(sumBy(list,x=>x.amount))}`;
+    head='<th>Date</th><th>Customer</th><th>For</th><th>Amount</th>';
+    rows=list.map(x=>`<tr class="row-link" ${goAttrs(x.kind==='service'?{svc:x.id}:{view:'amc',amcq:''})}><td>${fmtDate(x.date)}</td><td><strong>${dEsc(custName(x.customerId))}</strong></td><td>${dEsc(x.title)}</td><td>${money(x.amount)}</td></tr>`).join('');
+  }
+  const cols=head.split('<th>').length-1;
+  openModal(`<div class="modal modal-wide" role="dialog" aria-modal="true" aria-label="${dEsc(title)}">
+    <div class="modal-head"><div><h3>${dEsc(title)}</h3><div class="muted" style="font-size:12px">${fmtDate(b.from)}${b.to!==b.from?' – '+fmtDate(b.to):''} · ${total}</div></div><button type="button" class="icon-btn modal-close-btn" data-action="close-modal" aria-label="Close">${ic('x')}</button></div>
+    <div class="modal-body"><div class="table-wrap"><table><thead><tr>${head}</tr></thead><tbody>${rows||`<tr><td colspan="${cols}" class="muted">Nothing in this period.</td></tr>`}</tbody></table></div></div>
+    <div class="modal-foot"><button type="button" class="btn" data-action="close-modal">Close</button></div></div>`);
+}
+function dashExport(){
+  const A=dashAnalytics(STATE.dashRange||'30'); const rl=(DASH_RANGES.find(r=>r[0]===(STATE.dashRange||'30'))||[0,''])[1];
+  exportCSV('nirmal_agency_dashboard_'+todayISO(),[
+    ['Period',`${A.P.from} to ${A.P.to} (${rl})`],['Revenue (₹)',A.revenue],['  Services (₹)',A.svcRev],['  AMC (₹)',A.amcRev],['Services completed',A.done],['Billed (₹)',A.billed],['Collected (₹)',A.collected],
+    ['Avg turnaround (days)',A.turnaround==null?'':A.turnaround.toFixed(1)],['On-time %',A.onTime==null?'':A.onTime],['New customers',A.newCust],
+    ['Overdue services',A.overdue],['Due today',A.dueToday],['Due tomorrow',A.dueTomorrow],['Open requests',A.openReq],['Unassigned',A.unassigned],['Payment pending (₹)',A.pendingAmt],
+    ['Active AMC',A.activeAMC],['AMC expiring soon',A.expiringAMC],['Active customers',A.activeCust],['RO machines',A.totalRO]
+  ].map(([Metric,Value])=>({Metric,Value})));
+}
+
 function viewCustomers(){
   const q = STATE.filters.customers.toLowerCase();
-  const rows = DB.customers.filter(c=> !q || [c.name,c.mobile,c.code,c.city,c.area].join(' ').toLowerCase().includes(q));
+  const rows = DB.customers.filter(c=> !q || [c.name,c.mobile,c.code,c.city,c.area].join(' ').toLowerCase().includes(q)).filter(c=> !STATE.filters.customersArea || (c.area||c.city||'Unknown')===STATE.filters.customersArea).filter(c=> !STATE.filters.customersStatus || c.status===STATE.filters.customersStatus);
   return `
   <div class="panel">
     <div class="panel-head">
@@ -997,6 +1208,7 @@ function viewCustomers(){
       <div class="search-row" style="margin-bottom:14px">
         <div class="search-input"><input placeholder="Search name, mobile, city, customer ID…" value="${escAttr(STATE.filters.customers)}" oninput="STATE.filters.customers=this.value; renderPartial('admin-content', adminViewHTML)"></div>
       </div>
+      ${filterChips(['customersArea','customersStatus'])}
       ${rows.length? `<div class="table-wrap"><table><thead><tr><th>Customer ID</th><th>Name</th><th>Mobile</th><th>Type</th><th>City / Area</th><th>Status</th><th></th></tr></thead><tbody>
         ${rows.map(c=>`<tr class="row-link" data-action="view-customer" data-id="${c.id}">
           <td class="mono muted">${c.code}</td><td><strong>${c.name}</strong></td><td>${c.mobile}</td><td>${c.type}</td><td>${c.area||''}${c.area?', ':''}${c.city}</td>
@@ -1063,12 +1275,13 @@ function viewCustomerProfile(id){
 /* ---------------- RO MACHINES ---------------- */
 function viewRO(){
   const q = STATE.filters.ro.toLowerCase();
-  const rows = DB.roMachines.filter(r=> !q || [r.model,r.serial,r.brand,custName(r.customerId)].join(' ').toLowerCase().includes(q));
+  const rows = DB.roMachines.filter(r=> !q || [r.model,r.serial,r.brand,custName(r.customerId)].join(' ').toLowerCase().includes(q)).filter(r=> !STATE.filters.roQuick || (STATE.filters.roQuick==='overdue'? (r.nextServiceDate && daysDiff(r.nextServiceDate)<0) : r.status==='Active'));
   return `
   <div class="panel">
     <div class="panel-head"><h2>RO Machines (${DB.roMachines.length})</h2><button class="btn primary" data-action="add-ro">${ic('plus')} Add RO Machine</button></div>
     <div class="panel-body">
       <div class="search-row" style="margin-bottom:14px"><div class="search-input"><input placeholder="Search model, serial, customer…" value="${escAttr(STATE.filters.ro)}" oninput="STATE.filters.ro=this.value; renderPartial('admin-content', adminViewHTML)"></div></div>
+      ${filterChips(['roQuick'])}
       ${rows.length? `<div class="table-wrap"><table><thead><tr><th>Customer</th><th>Model / Serial</th><th>Type</th><th>Freq</th><th>Last Service</th><th>Next Service</th><th>Status</th><th></th></tr></thead><tbody>
       ${rows.map(r=>{ const overdue = r.nextServiceDate && daysDiff(r.nextServiceDate)<0;
         return `<tr>
@@ -1088,12 +1301,16 @@ function viewRO(){
 /* ---------------- AMC ---------------- */
 function viewAMC(){
   const q = STATE.filters.amc.toLowerCase();
-  const rows = DB.amcs.filter(a=> !q || [a.plan,custName(a.customerId)].join(' ').toLowerCase().includes(q));
+  const amcQ = STATE.filters.amcQuick, amcEnd = STATE.filters.amcEnd;
+  const rows = DB.amcs.filter(a=> !q || [a.plan,custName(a.customerId)].join(' ').toLowerCase().includes(q))
+    .filter(a=> !amcQ || (amcQ==='active'?amcStatus(a)==='Active':amcQ==='expiring'?amcStatus(a)==='Expiring Soon':amcQ==='expired'?amcStatus(a)==='Expired':amcQ==='unpaid'?a.paymentStatus!=='Paid':true))
+    .filter(a=> !amcEnd || (a.endDate||'').slice(0,7)===amcEnd);
   return `
   <div class="panel">
     <div class="panel-head"><h2>AMC Contracts (${DB.amcs.length})</h2><button class="btn primary" data-action="add-amc">${ic('plus')} Create AMC</button></div>
     <div class="panel-body">
       <div class="search-row" style="margin-bottom:14px"><div class="search-input"><input placeholder="Search plan or customer…" value="${escAttr(STATE.filters.amc)}" oninput="STATE.filters.amc=this.value; renderPartial('admin-content', adminViewHTML)"></div></div>
+      ${filterChips(['amcQuick','amcEnd'])}
       ${rows.length? `<div class="table-wrap"><table><thead><tr><th>Customer</th><th>RO</th><th>Plan</th><th>Period</th><th>Amount</th><th>Services used</th><th>Payment</th><th>Status</th><th></th></tr></thead><tbody>
       ${rows.map(a=>`<tr>
         <td><a href="#" data-action="view-customer" data-id="${a.customerId}" style="text-decoration:underline">${custName(a.customerId)}</a></td>
@@ -1114,6 +1331,9 @@ function viewServices(requestsOnly){
   let rows = DB.services.filter(s=> !q || [custName(s.customerId),s.type,s.complaint].join(' ').toLowerCase().includes(q));
   if(requestsOnly) rows = rows.filter(s=>['New','Pending'].includes(s.status));
   if(STATE.filters.servicesStatus) rows = rows.filter(s=>s.status===STATE.filters.servicesStatus);
+  if(STATE.filters.servicesQuick) rows = rows.filter(s=>svcQuick(s,STATE.filters.servicesQuick));
+  if(STATE.filters.servicesType) rows = rows.filter(s=>s.type===STATE.filters.servicesType);
+  if(STATE.filters.servicesTech) rows = rows.filter(s=>s.technicianId===STATE.filters.servicesTech);
   rows = rows.slice().sort((a,b)=> (a.dueDate||a.requestDate||'').localeCompare(b.dueDate||b.requestDate||''));
   const statusOpts = ['New','Pending','Scheduled','Assigned','On the Way','In Progress','Waiting for Parts','Completed','Cancelled','Rescheduled','Customer Not Available'];
   return `
@@ -1124,6 +1344,7 @@ function viewServices(requestsOnly){
         <div class="search-input"><input placeholder="Search customer, type, complaint…" value="${escAttr(STATE.filters.services)}" oninput="STATE.filters.services=this.value; renderPartial('admin-content', adminViewHTML)"></div>
         ${requestsOnly?'':`<select onchange="STATE.filters.servicesStatus=this.value; renderPartial('admin-content', adminViewHTML)" style="width:auto"><option value="">All statuses</option>${statusOpts.map(s=>`<option ${STATE.filters.servicesStatus===s?'selected':''}>${s}</option>`).join('')}</select>`}
       </div>
+      ${filterChips(['servicesQuick','servicesType','servicesTech'])}
       ${rows.length? `<div class="table-wrap"><table><thead><tr><th>Customer</th><th>Type</th><th>Due</th><th>Technician</th><th>Priority</th><th>Status</th><th>Amount</th><th></th></tr></thead><tbody>
       ${rows.map(s=>`<tr class="row-link" data-action="view-service" data-id="${s.id}">
         <td><strong>${custName(s.customerId)}</strong><div class="muted" style="font-size:11.5px">${roObj(s.roId)?.model||''}</div></td>
@@ -1357,7 +1578,7 @@ function viewSettings(){
   <div class="panel">
     <div class="panel-head"><h2>Push reminders</h2></div>
     <div class="panel-body">
-      <p class="muted" style="margin-top:0">When a service is due today, AquaFlow can pop up a reminder as soon as you open the app — like a push notification.</p>
+      <p class="muted" style="margin-top:0">When a service is due today, Nirmal Agency can pop up a reminder as soon as you open the app — like a push notification.</p>
       <label style="display:flex;align-items:center;gap:8px;font-weight:700;margin-bottom:12px"><input type="checkbox" id="push-enabled-toggle" style="width:auto" ${s.pushEnabled?'checked':''} onchange="togglePushEnabled(this.checked)"> Show due-today reminders when I open the app</label>
       <div class="search-row">
         <button class="btn" data-action="enable-push">${ic('bell')} Enable browser notifications</button>
@@ -1425,7 +1646,7 @@ function fld(label, name, value, type, opts){
   return `<div class="field"><label>${label}</label><input name="${name}" type="${type}" value="${escAttr(value)}" ${opts.required?'required':''} ${opts.step?`step="${opts.step}"`:''}></div>`;
 }
 function modalShell(title, bodyHTML, submitLabel, formAction){
-  return `<div class="modal" role="dialog" aria-modal="true" aria-label="AquaFlow dialog">
+  return `<div class="modal" role="dialog" aria-modal="true" aria-label="Nirmal Agency dialog">
     <div class="modal-head"><h3>${title}</h3><button type="button" class="icon-btn modal-close-btn" data-action="close-modal" title="Close" aria-label="Close dialog">${ic('x')}</button></div>
     <form data-action="${formAction}">
       <div class="modal-body">${bodyHTML}</div>
@@ -1589,9 +1810,9 @@ function exportCSV(name, rows){
   const cols = Object.keys(rows[0]).filter(k=>typeof rows[0][k] !== 'object');
   const lines = [cols.join(',')];
   rows.forEach(r=>{ lines.push(cols.map(c=>`"${String(r[c]==null?'':r[c]).replace(/"/g,'""')}"`).join(',')); });
-  const blob = new Blob([lines.join('\\n')], {type:'text/csv'});
+  const blob = new Blob([lines.join('\n')], {type:'text/csv'});
   const url = URL.createObjectURL(blob);
-  const a = document.createElement('a'); a.href=url; a.download = name.replace(/\\s+/g,'_')+'.csv'; a.click();
+  const a = document.createElement('a'); a.href=url; a.download = name.replace(/\s+/g,'_')+'.csv'; a.click();
   URL.revokeObjectURL(url);
 }
 
@@ -1774,7 +1995,7 @@ function completionForm(id){
     <input type="hidden" name="id" value="${id}">
     <p class="muted" style="margin-top:0">Completing service for <strong>${c?c.name:''}</strong></p>
     ${fld('Work performed','workPerformed',s.workPerformed,'textarea',{rows:2, required:true})}
-    <div class="field"><label>Parts used (name × qty @ cost, one per line)</label><textarea name="partsText" rows="2" placeholder="Sediment Filter x1 @250">${(s.partsUsed||[]).map(p=>`${p.name} x${p.qty} @${p.cost}`).join('\\n')}</textarea></div>
+    <div class="field"><label>Parts used (name × qty @ cost, one per line)</label><textarea name="partsText" rows="2" placeholder="Sediment Filter x1 @250">${(s.partsUsed||[]).map(p=>`${p.name} x${p.qty} @${p.cost}`).join('\n')}</textarea></div>
     <div class="field-row">${fld('Labour cost','laborCost',s.laborCost||0,'number')}${fld('Additional charges','additionalCharges',s.additionalCharges||0,'number')}</div>
     <div class="field-row">${fld('Discount','discount',s.discount||0,'number')}${fld('Payment mode','paymentMode',s.paymentMode||'Cash','select',{options:['Cash','UPI','Bank Transfer','Card','Online Payment','Pending']})}</div>
     ${fld('Customer signature (type full name)','signature',s.signature,'text',{required:true})}
@@ -1787,8 +2008,8 @@ function completionForm(id){
 async function handleSubmitCompletion(form){
   const o = formToObj(form);
   const s = byId(DB.services,o.id);
-  const partsUsed = (o.partsText||'').split('\\n').map(l=>l.trim()).filter(Boolean).map(line=>{
-    const m = line.match(/^(.*?)\\s*x(\\d+(?:\\.\\d+)?)\\s*@(\\d+(?:\\.\\d+)?)/i);
+  const partsUsed = (o.partsText||'').split('\n').map(l=>l.trim()).filter(Boolean).map(line=>{
+    const m = line.match(/^(.*?)\s*x(\d+(?:\.\d+)?)\s*@(\d+(?:\.\d+)?)/i);
     if(m) return {name:m[1].trim(), qty:Number(m[2]), cost:Number(m[3])};
     return {name:line, qty:1, cost:0};
   });
@@ -1854,7 +2075,7 @@ document.addEventListener('click', function(e){
     case 'toggle-theme': toggleTheme(); break;
     case 'close-push-toast': closePushToast(el.closest('.push-toast')); break;
     case 'logout': STATE.role=null; STATE.loginRole='admin'; STATE.userId=null; STATE.username=''; STATE.technicianId=null; STATE.adminView='dashboard'; STATE.techView='today'; STATE.activeCustomerId=null; STATE.activeServiceId=null; STATE.activeTechServiceId=null; STATE.pushChecked=false; STATE.sidebarOpen=false; render(); break;
-    case 'nav': STATE.adminView = el.getAttribute('data-view'); STATE.activeCustomerId=null; STATE.activeServiceId=null; STATE.sidebarOpen=false; render(); break;
+    case 'nav': resetDashFilters(); STATE.filters.servicesStatus=''; STATE.adminView = el.getAttribute('data-view'); STATE.activeCustomerId=null; STATE.activeServiceId=null; STATE.sidebarOpen=false; render(); break;
     case 'toggle-sidebar': STATE.sidebarOpen = !STATE.sidebarOpen; render(); break;
     case 'close-sidebar': STATE.sidebarOpen = false; render(); break;
     case 'notif-filter': STATE.notifFilter = el.getAttribute('data-filter'); render(); break;
@@ -1897,9 +2118,15 @@ document.addEventListener('click', function(e){
     case 'cal-day': STATE.calSelected = el.getAttribute('data-date'); render(); break;
 
     case 'export-csv': exportCSV(el.getAttribute('data-report'), window.__reportData?.[el.getAttribute('data-report')]||[]); break;
-    case 'export-json': { const blob=new Blob([JSON.stringify(DB,null,2)],{type:'application/json'}); const url=URL.createObjectURL(blob); const a=document.createElement('a'); a.href=url; a.download='aquaflow_backup.json'; a.click(); URL.revokeObjectURL(url); break; }
+    case 'export-json': { const blob=new Blob([JSON.stringify(DB,null,2)],{type:'application/json'}); const url=URL.createObjectURL(blob); const a=document.createElement('a'); a.href=url; a.download='nirmal_agency_backup.json'; a.click(); URL.revokeObjectURL(url); break; }
     case 'reset-data': if(confirm('Reset all data to the sample dataset? This removes anything you added.')){ DB = seedData(); persist(); toast('Data reset'); render(); } break;
 
+    case 'dash-go': dashGo(el); break;
+    case 'dash-range': STATE.dashRange=el.getAttribute('data-range')||'30'; render(); break;
+    case 'dash-refresh': if(window.AquaFlowV9&&window.AquaFlowV9.refresh) window.AquaFlowV9.refresh(true); else { render(); toast('Showing data saved on this device'); } break;
+    case 'dash-bucket': dashBucket(Number(el.getAttribute('data-idx')),el.getAttribute('data-kind')); break;
+    case 'dash-export': dashExport(); break;
+    case 'clear-filter': { const k=el.getAttribute('data-key'); if(k==='*'){ resetDashFilters(); STATE.filters.servicesStatus=''; } else STATE.filters[k]=''; render(); break; }
     case 'close-modal': closeModal(); break;
     case 'close-modal-backdrop': if(e.target===el) closeModal(); break;
 
@@ -1953,6 +2180,7 @@ document.addEventListener('keydown',function(e){
   const APP_VERSION = '8.0.0';
   window.AquaFlow = Object.assign(window.AquaFlow || {}, { version: APP_VERSION });
   window.__afLastSaved = new Date();
+  window.__afUpdateSaveIndicator = function(){ try{ updateSaveIndicator(); }catch(e){} };
 
   /* ---------- safer HTML helpers ---------- */
   const htmlEscape = value => String(value == null ? '' : value)
@@ -1999,8 +2227,9 @@ document.addEventListener('keydown',function(e){
     DB.users = Array.isArray(DB.users) ? DB.users : [];
     DB.notificationsRead = DB.notificationsRead && typeof DB.notificationsRead==='object' ? DB.notificationsRead : {};
     DB.notificationsDismissed = DB.notificationsDismissed && typeof DB.notificationsDismissed==='object' ? DB.notificationsDismissed : {};
-    DB.settings = DB.settings || {companyName:'AquaFlow RO Services',serviceReminderDays:[1,2,3,7],amcReminderDays:[60,30,15,7,1],pushEnabled:true};
+    DB.settings = DB.settings || {companyName:'Nirmal Agency',serviceReminderDays:[1,2,3,7],amcReminderDays:[60,30,15,7,1],pushEnabled:true};
     DB.meta = DB.meta || {};
+    if(/aquaflow/i.test(DB.settings.companyName||'')) DB.settings.companyName='Nirmal Agency';
 
     DB.customers.forEach(c=>{
       c.status = c.status || 'Active';
@@ -2138,7 +2367,7 @@ document.addEventListener('keydown',function(e){
   ];
   function openCommandPalette(){
     const list=commandItems.map((x,i)=>`<button class="af-command-item" data-action="command-item" data-command-index="${i}">${ic(x[1])}<span>${x[0]}</span><kbd>${i<11?String(i+1):''}</kbd></button>`).join('');
-    openModal(`<div class="modal-head"><div><h3>Quick navigation</h3><div class="muted af-command-sub">Jump anywhere in AquaFlow</div></div><button type="button" class="icon-btn modal-close-btn" data-action="close-modal" aria-label="Close">${ic('x')}</button></div>
+    openModal(`<div class="modal-head"><div><h3>Quick navigation</h3><div class="muted af-command-sub">Jump anywhere in Nirmal Agency</div></div><button type="button" class="icon-btn modal-close-btn" data-action="close-modal" aria-label="Close">${ic('x')}</button></div>
       <div class="modal-body"><div class="search-input af-command-search">${ic('search')}<input id="af-command-search" placeholder="Search actions…" autocomplete="off"></div><div id="af-command-list" class="af-command-list">${list}</div><div class="af-command-help"><span><kbd>Ctrl</kbd> + <kbd>K</kbd> Open</span><span><kbd>Esc</kbd> Close</span></div></div>`);
     setTimeout(()=>document.getElementById('af-command-search')?.focus(),20);
   }
@@ -2162,7 +2391,7 @@ document.addEventListener('keydown',function(e){
 
   /* ---------- restore backup ---------- */
   function openRestore(){
-    openModal(`<div class="modal-head"><div><h3>Restore local backup</h3><div class="muted">Import an AquaFlow JSON backup from this device.</div></div><button type="button" class="icon-btn modal-close-btn" data-action="close-modal">${ic('x')}</button></div>
+    openModal(`<div class="modal-head"><div><h3>Restore local backup</h3><div class="muted">Import a Nirmal Agency JSON backup from this device.</div></div><button type="button" class="icon-btn modal-close-btn" data-action="close-modal">${ic('x')}</button></div>
       <div class="modal-body"><div class="af-upload-zone"><div class="af-upload-icon">${ic('download')}</div><strong>Select backup JSON</strong><span>Current browser data will be replaced after confirmation.</span><input id="af-backup-file" type="file" accept="application/json,.json"></div><div id="af-backup-preview" class="af-backup-preview hidden"></div></div>
       <div class="modal-foot"><button type="button" class="btn" data-action="close-modal">Cancel</button><button type="button" class="btn primary" data-action="restore-backup">${ic('check')} Restore backup</button></div>`);
     document.getElementById('af-backup-file')?.addEventListener('change', async e=>{
@@ -2175,7 +2404,7 @@ document.addEventListener('keydown',function(e){
     });
   }
   function restoreBackup(){
-    if(!window.__afRestoreData) return toast('Choose a valid AquaFlow JSON backup first.');
+    if(!window.__afRestoreData) return toast('Choose a valid Nirmal Agency JSON backup first.');
     confirmAction('Restore backup','This will replace all current browser data with the selected backup. Export your current data first if you need it.','Restore','restore');
   }
   function applyRestore(){
@@ -2192,7 +2421,7 @@ document.addEventListener('keydown',function(e){
     const w=window.open('','_blank','noopener,noreferrer,width=820,height=900');
     if(!w) return toast('Allow pop-ups to print the job card.');
     const rows=[['Service ID',s.id],['Customer',c?.name||'—'],['Mobile',c?.mobile||'—'],['Address',c?`${c.address||''}, ${c.city||''} ${c.pincode||''}`:'—'],['RO model',r?.model||'—'],['Serial',r?.serial||'—'],['Technician',t?.name||'Unassigned'],['Type',s.type],['Scheduled',fmtDate(s.scheduledDate)],['Status',s.status],['Complaint',s.complaint||'—'],['Work performed',s.workPerformed||'—'],['Total',money(s.totalAmount)],['Payment',`${s.paymentStatus||'Pending'} ${s.paymentMode?`· ${s.paymentMode}`:''}`]];
-    w.document.write(`<!doctype html><html><head><title>AquaFlow Job Card ${htmlEscape(s.id)}</title><style>body{font:14px Arial,sans-serif;color:#15252b;margin:36px}h1{font:700 24px Arial;margin:0}h2{font-size:15px;margin:28px 0 10px}p{color:#60747c}.brand{display:flex;justify-content:space-between;border-bottom:2px solid #0b5e73;padding-bottom:16px}.grid{display:grid;grid-template-columns:180px 1fr;border:1px solid #d9e4e8}.row{display:contents}.row>div{padding:9px 11px;border-bottom:1px solid #e6edef}.label{font-weight:700;background:#f2f7f8}.footer{margin-top:32px;font-size:11px;color:#7b8d94}@media print{body{margin:16px}}
+    w.document.write(`<!doctype html><html><head><title>Nirmal Agency Job Card ${htmlEscape(s.id)}</title><style>body{font:14px Arial,sans-serif;color:#15252b;margin:36px}h1{font:700 24px Arial;margin:0}h2{font-size:15px;margin:28px 0 10px}p{color:#60747c}.brand{display:flex;justify-content:space-between;border-bottom:2px solid #0b5e73;padding-bottom:16px}.grid{display:grid;grid-template-columns:180px 1fr;border:1px solid #d9e4e8}.row{display:contents}.row>div{padding:9px 11px;border-bottom:1px solid #e6edef}.label{font-weight:700;background:#f2f7f8}.footer{margin-top:32px;font-size:11px;color:#7b8d94}@media print{body{margin:16px}}
 /* =====================================================================
    V9 production UX layer — accessibility, density, mobile ergonomics
    ===================================================================== */
@@ -2213,7 +2442,7 @@ button,.btn,.icon-btn,.sb-item,.tb-item{min-height:var(--touch);}
 @media(max-width:900px){.af-login{grid-template-columns:1fr}.af-login-hero{min-height:300px;padding:28px}.af-login-hero .hero-copy{max-width:650px}.af-login-hero .feature-grid{display:none}.content{padding:16px!important}.topbar{padding:10px 14px!important}.panel-head{gap:10px;flex-wrap:wrap}.panel-head .actions{width:100%;justify-content:flex-start}}
 @media(max-width:600px){body{font-size:14px}.modal-backdrop{padding:10px!important}.modal{width:100%!important;max-height:94vh!important;border-radius:18px!important}.modal-foot{position:sticky;bottom:0;background:var(--surface);padding-top:12px}.search-row{flex-wrap:wrap}.btn{min-height:44px}.icon-btn{min-width:44px}.table-wrap table{min-width:760px}.cards-row{grid-template-columns:1fr!important}.stat-card .value{font-size:24px}.af-login-hero{min-height:230px}.af-login-form{padding:24px!important}}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important;transition-duration:.001ms!important}}
-</style></head><body><div class="brand"><div><h1>AquaFlow</h1><p>RO Service & AMC Manager · Service Job Card</p></div><strong>${htmlEscape(s.id)}</strong></div><h2>Service details</h2><div class="grid">${rows.map(r=>`<div class="row"><div class="label">${htmlEscape(r[0])}</div><div>${htmlEscape(r[1])}</div></div>`).join('')}</div><div class="footer">Generated locally by AquaFlow · ${new Date().toLocaleString('en-IN')}</div><script>window.onload=()=>setTimeout(()=>window.print(),250)<\/script></body></html>`);
+</style></head><body><div class="brand"><div><img src="${new URL('assets/nirmal-agency-logo.png',location.href).href}" alt="Nirmal Agency" style="height:46px;display:block;margin-bottom:6px"><p>RO Service & AMC Manager · Service Job Card</p></div><strong>${htmlEscape(s.id)}</strong></div><h2>Service details</h2><div class="grid">${rows.map(r=>`<div class="row"><div class="label">${htmlEscape(r[0])}</div><div>${htmlEscape(r[1])}</div></div>`).join('')}</div><div class="footer">Generated locally by Nirmal Agency · ${new Date().toLocaleString('en-IN')}</div><script>window.onload=()=>setTimeout(()=>window.print(),250)<\/script></body></html>`);
     w.document.close();
   }
 
@@ -2432,26 +2661,56 @@ button,.btn,.icon-btn,.sb-item,.tb-item{min-height:var(--touch);}
 (function AquaFlowV9Bridge(){
   'use strict';
   const API_BASE = window.AQUAFLOW_API_BASE || '/api';
-  let serverOnline=false, csrf=''; let syncTimer=null; let syncing=false;
+  let serverOnline=false, csrf=''; let syncTimer=null; let syncing=false; let resync=false; let rev=null, lastSync=null, pendingRender=false;
   window.AquaFlow = Object.assign(window.AquaFlow||{}, {apiBase:API_BASE, serverMode:false});
   const api = async (path, options={})=>{
     const opts={credentials:'same-origin', headers:{'Content-Type':'application/json', ...(options.headers||{})}, ...options};
     if(csrf && !['GET','HEAD'].includes((opts.method||'GET').toUpperCase())) opts.headers['X-CSRF-Token']=csrf;
     const r=await fetch(API_BASE+path,opts); const ct=r.headers.get('content-type')||'';
     const body=ct.includes('application/json')?await r.json():await r.text();
-    if(!r.ok) throw new Error(body?.detail||body?.message||`HTTP ${r.status}`); return body;
+    if(!r.ok){ const err=new Error(body?.detail||body?.message||`HTTP ${r.status}`); err.status=r.status; throw err; } return body;
   };
   async function probe(){try{const h=await api('/health');serverOnline=!!h.ok; window.AquaFlow.serverMode=serverOnline; window.AquaFlow.serverHealth=h; return true;}catch(e){serverOnline=false;window.AquaFlow.serverMode=false;return false;}}
   async function loginServer(username,password,role){
     const out=await api('/auth/login',{method:'POST',body:JSON.stringify({username,password,role})});
     csrf=out.csrf_token||''; sessionStorage.setItem('aquaflow_csrf',csrf); serverOnline=true; window.AquaFlow.serverMode=true; return out;
   }
-  async function pull(){const out=await api('/bootstrap'); if(out?.data){DB=out.data; if(!DB.notificationsRead)DB.notificationsRead={}; if(!DB.notificationsDismissed)DB.notificationsDismissed={}; persistLocalOnly();} return out;}
+  async function pull(){const out=await api('/bootstrap'); if(out?.data){DB=out.data; if(!DB.notificationsRead)DB.notificationsRead={}; if(!DB.notificationsDismissed)DB.notificationsDismissed={}; DB.settings=DB.settings||{}; ['serviceReminderDays','amcReminderDays'].forEach(k=>{ const v=DB.settings[k]; if(!Array.isArray(v)) DB.settings[k]=String(v==null?'':v).split(',').map(x=>parseInt(x,10)).filter(n=>!isNaN(n)); }); if(!DB.settings.companyName||/aquaflow/i.test(DB.settings.companyName))DB.settings.companyName='Nirmal Agency'; if(out.revision!=null)rev=out.revision; lastSync=new Date(); persistLocalOnly();} return out;}
   function persistLocalOnly(){try{localStorage.setItem(STORAGE_KEY,JSON.stringify(DB));window.__afLastSaved=new Date();}catch(e){}}
   const originalPersist = persist;
   persist = function(){ originalPersist(); queueSync(); };
   function queueSync(){ if(!serverOnline || !STATE.role) return; clearTimeout(syncTimer); syncTimer=setTimeout(sync,500); }
-  async function sync(){ if(syncing||!serverOnline||!STATE.role)return; syncing=true; document.body.classList.add('af-syncing'); try{await api('/sync',{method:'POST',body:JSON.stringify({data:DB})}); window.__afLastSaved=new Date();}catch(e){serverOnline=false;window.AquaFlow.serverMode=false;} finally{syncing=false;document.body.classList.remove('af-syncing'); updateSaveIndicator?.();}}
+  function refreshPill(){ const el=document.getElementById('af-live-pill'); if(el){ el.className='live-pill '+(serverOnline?'online':'offline'); el.innerHTML=livePillHTML(); } }
+  function sessionExpired(){ STATE.role=null; STATE.userId=null; csrf=''; try{sessionStorage.removeItem('aquaflow_csrf');}catch(_){} toast('Session expired — please sign in again'); render(); }
+  async function sync(){
+    if(!serverOnline||!STATE.role)return; if(syncing){ resync=true; return; }
+    syncing=true; document.body.classList.add('af-syncing');
+    try{ const out=await api('/sync',{method:'POST',body:JSON.stringify({data:DB,base_revision:rev})}); if(out&&out.revision!=null)rev=out.revision; lastSync=new Date(); window.__afLastSaved=lastSync; }
+    catch(e){
+      if(e.status===409){ try{ await pull(); toast('Another user changed the data — latest version loaded. Please repeat your last change.'); render(); }catch(_){} }
+      else if(e.status===401){ sessionExpired(); }
+      else if(e.status){ toast(e.message||'Could not save changes'); }
+      else { serverOnline=false; window.AquaFlow.serverMode=false; }
+    }
+    finally{ syncing=false; document.body.classList.remove('af-syncing'); if(window.__afUpdateSaveIndicator) window.__afUpdateSaveIndicator(); refreshPill(); if(resync){ resync=false; queueSync(); } }
+  }
+  /* ---- live data: poll the lightweight revision endpoint and re-pull only when someone changed something ---- */
+  function userBusy(){ if(STATE.modal) return true; const a=document.activeElement; return !!(a && /^(INPUT|TEXTAREA|SELECT)$/.test(a.tagName) && a.closest('#app')); }
+  async function poll(){
+    if(!STATE.role || document.hidden || syncing || syncTimer) return;
+    if(!serverOnline){ if(csrf && await probe()){ await sync(); refreshPill(); } return; }
+    try{ const ch=await api('/changes'); if(rev===null || ch.revision!==rev){ await pull(); pendingRender=true; } lastSync=new Date(); }
+    catch(e){ if(e.status===401){ sessionExpired(); return; } if(!e.status){ serverOnline=false; window.AquaFlow.serverMode=false; } }
+    if(pendingRender && !userBusy()){ pendingRender=false; render(); } else refreshPill();
+  }
+  async function refresh(){
+    if(!csrf){ toast('You are using data saved on this device. Sign in with the server running to go live.'); return; }
+    if(!serverOnline && !(await probe())){ toast('Server not reachable — showing data saved on this device'); render(); return; }
+    try{ await pull(); pendingRender=false; render(); toast('Refreshed from the live database'); }
+    catch(e){ if(e.status===401) sessionExpired(); else toast('Could not refresh: '+e.message); }
+  }
+  setInterval(poll,10000);
+  document.addEventListener('visibilitychange',()=>{ if(!document.hidden) poll(); });
   const localLogin = loginUser;
   loginUser = async function(form){
     const data=formToObj(form); const role=data.role||STATE.loginRole||'admin'; const username=String(data.username||'').trim(), password=String(data.password||'');
@@ -2469,7 +2728,7 @@ button,.btn,.icon-btn,.sb-item,.tb-item{min-height:var(--touch);}
   };
   const originalLogout = ()=>{};
   document.addEventListener('keydown',e=>{ if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='k'){e.preventDefault(); if(STATE.role) openCommandPalette();} });
-  window.AquaFlowV9={probe,pull,sync,api,get serverOnline(){return serverOnline;}};
+  window.AquaFlowV9={probe,pull,sync,api,poll,refresh,get serverOnline(){return serverOnline;},get lastSync(){return lastSync;},get revision(){return rev;}};
   // Restore CSRF token from prior same-tab session and expose a server status pill.
   csrf=sessionStorage.getItem('aquaflow_csrf')||'';
   const oldRender=render;

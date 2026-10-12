@@ -14,7 +14,7 @@ from pydantic import BaseModel, Field
 ROOT=Path(__file__).resolve().parents[1]
 DB_PATH=Path(os.getenv('AQUAFLOW_DB', ROOT/'aquaflow.db'))
 SCHEMA_PATH=ROOT/'database.sql'
-APP_VERSION='9.0.0'
+APP_VERSION='9.1.0'
 SESSION_TTL=int(os.getenv('AQUAFLOW_SESSION_TTL','28800'))
 SECRET=os.getenv('AQUAFLOW_SECRET','change-this-local-secret')
 COOKIE_SECURE=os.getenv('AQUAFLOW_COOKIE_SECURE','0')=='1'
@@ -24,7 +24,7 @@ async def lifespan(_app):
     init_db()
     yield
 
-app=FastAPI(title='AquaFlow API',version=APP_VERSION,docs_url='/api/docs',redoc_url='/api/redoc',lifespan=lifespan)
+app=FastAPI(title='Nirmal Agency API',version=APP_VERSION,docs_url='/api/docs',redoc_url='/api/redoc',lifespan=lifespan)
 app.add_middleware(CORSMiddleware,allow_origins=[o.strip() for o in os.getenv('AQUAFLOW_CORS','').split(',') if o.strip()],allow_credentials=True,allow_methods=['*'],allow_headers=['*'])
 
 class LoginIn(BaseModel):
@@ -33,6 +33,7 @@ class LoginIn(BaseModel):
     role:str=Field(pattern='^(admin|technician)$')
 class SyncIn(BaseModel):
     data:dict[str,Any]
+    base_revision:int|None=None
 
 SESSIONS:dict[str,dict[str,Any]]={}
 
@@ -65,6 +66,10 @@ def verify_password(password:str,stored:str)->bool:
 
 def legacy_sha(password:str)->str:return hashlib.sha256(password.encode()).hexdigest()
 
+def current_revision(c)->int:
+    # Every successful sync writes one audit row, so the highest audit id is a cheap, monotonic data revision.
+    return int(c.execute('SELECT COALESCE(MAX(id),0) FROM audit_log').fetchone()[0])
+
 def row_to_dict(r):return dict(r) if r else None
 
 def public_user(r):
@@ -77,6 +82,16 @@ def auth(request:Request, csrf:bool=False):
         token=request.headers.get('X-CSRF-Token','')
         if not token or not hmac.compare_digest(token,s['csrf']): raise HTTPException(403,'Invalid CSRF token')
     return s
+
+def parse_day_list(v)->list[int]:
+    try: val=json.loads(v)
+    except Exception: val=str(v).split(',')
+    if not isinstance(val,list): val=[val]
+    out=[]
+    for x in val:
+        try: out.append(int(str(x).strip()))
+        except ValueError: pass
+    return out
 
 def json_state_from_db(c):
     # Return frontend-compatible camelCase state while keeping relational storage authoritative.
@@ -101,10 +116,11 @@ def json_state_from_db(c):
     for x in rows('SELECT id,username,role,technician_id,name,status,created_at AS createdAt,updated_at AS updatedAt FROM users'):
         users.append(x)
     settings={r['key']:r['value'] for r in c.execute('SELECT key,value FROM settings').fetchall()}
-    for k in ('pushEnabled',):
-        if k in settings:
-            try: settings[k]=json.loads(settings[k])
-            except: pass
+    # Settings are stored as text; hand the browser the types it expects (the seed data stores day lists as '60,30,15').
+    for k in ('serviceReminderDays','amcReminderDays'):
+        if k in settings: settings[k]=parse_day_list(settings[k])
+    if 'pushEnabled' in settings:
+        settings['pushEnabled']=str(settings['pushEnabled']).strip().lower() in ('true','1','yes')
     state={'customers':customers,'roMachines':ros,'amcs':amcs,'technicians':techs,'services':services,'users':users,'settings':settings,'notificationsRead':{},'notificationsDismissed':{},'meta':{'updatedAt':datetime.now(timezone.utc).isoformat(),'version':APP_VERSION}}
     return state
 
@@ -144,7 +160,7 @@ def sync_relational(c,data,user):
 @app.get('/api/health')
 def health():
     with conn() as c: db_ok=c.execute('SELECT 1').fetchone()[0]==1
-    return {'ok':True,'service':'aquaflow-api','version':APP_VERSION,'database':db_ok,'time':datetime.now(timezone.utc).isoformat()}
+    return {'ok':True,'service':'nirmal-agency-api','version':APP_VERSION,'database':db_ok,'time':datetime.now(timezone.utc).isoformat()}
 
 @app.post('/api/auth/login')
 def login(body:LoginIn,response:Response):
@@ -172,7 +188,13 @@ def logout(request:Request,response:Response):
 @app.get('/api/bootstrap')
 def bootstrap(request:Request):
     auth(request)
-    with conn() as c: return {'data':json_state_from_db(c),'version':APP_VERSION}
+    with conn() as c: return {'data':json_state_from_db(c),'version':APP_VERSION,'revision':current_revision(c)}
+
+@app.get('/api/changes')
+def changes(request:Request):
+    # Lightweight poll used by the dashboard to stay live: clients re-pull only when the revision moves.
+    auth(request)
+    with conn() as c: return {'revision':current_revision(c),'time':datetime.now(timezone.utc).isoformat()}
 
 @app.post('/api/sync')
 def sync(body:SyncIn,request:Request):
@@ -187,9 +209,14 @@ def sync(body:SyncIn,request:Request):
         if x.get('roId') and x.get('roId') not in ros: raise HTTPException(422,'Service references an unknown RO')
         if x.get('technicianId') and x.get('technicianId') not in tech: raise HTTPException(422,'Service references an unknown technician')
     with conn() as c:
+        c.execute('BEGIN IMMEDIATE')
+        # Optimistic concurrency: refuse to overwrite changes made by someone else since this client last pulled.
+        if body.base_revision is not None and body.base_revision!=current_revision(c):
+            raise HTTPException(409,'Data was changed by another user. Latest data has been loaded.')
         try: sync_relational(c,data,user)
         except sqlite3.IntegrityError as e: raise HTTPException(422,f'Database validation failed: {e}')
-    return {'ok':True,'saved_at':datetime.now(timezone.utc).isoformat()}
+        revision=current_revision(c)
+    return {'ok':True,'saved_at':datetime.now(timezone.utc).isoformat(),'revision':revision}
 
 @app.get('/api/audit')
 def audit(request:Request,limit:int=100):
@@ -201,10 +228,13 @@ def audit(request:Request,limit:int=100):
 def docs_info(): return {'openapi':'/api/openapi.json','docs':'/api/docs'}
 
 @app.get('/')
-def root(): return FileResponse(ROOT/'index.html')
+def root(): return FileResponse(ROOT/'index.html',headers={'Cache-Control':'no-cache'})
+
+ASSETS=(ROOT/'assets').resolve()
 
 @app.get('/{path:path}')
 def static_files(path:str):
-    p=(ROOT/path).resolve()
-    if ROOT in p.parents and p.is_file(): return FileResponse(p)
+    # Only the public assets folder is served: never the database, backend code or deployment files.
+    p=(ASSETS/path.removeprefix('assets/')).resolve()
+    if ASSETS in p.parents and p.is_file(): return FileResponse(p)
     raise HTTPException(404,'Not found')
