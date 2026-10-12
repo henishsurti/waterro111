@@ -65,3 +65,13 @@ def test_bootstrap_returns_typed_settings(client):
     data=client.get('/api/bootstrap').json()['data']
     assert client.post('/api/sync',json={'data':data},headers=h).status_code==200
     assert client.get('/api/bootstrap').json()['data']['settings']['amcReminderDays']==[60,30,15,7,1]
+
+
+def test_edited_customer_type_is_saved(client):
+    # The browser edits `type`; a stale `customerType` from the last load must not win.
+    h=_login(client)
+    users=[{'id':'u1','username':'admin','role':'admin','name':'Admin'}]
+    cust={'id':'c1','code':'CUS-1','name':'Test Co','mobile':'9000000000','customerType':'Residential','type':'Hospital'}
+    r=client.post('/api/sync',json={'data':{'customers':[cust],'users':users}},headers=h); assert r.status_code==200
+    got=client.get('/api/bootstrap').json()['data']['customers'][0]
+    assert got['customerType']=='Hospital'

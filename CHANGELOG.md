@@ -5,6 +5,8 @@
 - Live database: `/api/changes` revision polling, automatic refresh, "Live database" badge, manual Refresh, and optimistic-concurrency (`base_revision`, HTTP 409) so simultaneous editors cannot overwrite each other.
 - List screens (Services, Customers, AMC, RO) accept dashboard filters and show removable filter chips.
 - Security: the web server now serves only `index.html` and `assets/`; previously `aquaflow.db` (with password hashes) and the backend code were downloadable.
+- UI/UX polish: larger logo on the login screen, a proper unread badge on the bell, a clear "Server connected" status (the contradictory "Saved locally" label is hidden when the server is online), an honest login note about where data is stored, demo logins collapsed by default, and a tidier phone header.
+- Fixes: Customer and RO "Type" columns showed "undefined" when data loaded from the server; editing a customer's type was silently ignored on save; Notifications scrolled sideways on phones.
 - Fixes: server settings returned as text broke login in server mode; CSV export wrote a single line; multi-line "parts used" input was not parsed; an unsaved change made during a sync could be lost; save indicator threw an error after sync.
 
 # AquaFlow Professional V9

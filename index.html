@@ -453,6 +453,33 @@ input:focus,select:focus,textarea:focus{outline:none; box-shadow:var(--focus); b
 .sb-brand{padding:6px 6px 20px!important}
 .sb-brand img{display:block;width:100%;max-width:196px;height:auto;background:#fff;border-radius:11px;padding:8px 10px;box-shadow:0 6px 18px rgba(0,0,0,.18)}
 
+
+/* ===== Nirmal Agency polish ===== */
+.af-login-brand .logo-wide{padding:16px 26px;border-radius:16px}
+.af-login-brand .logo-wide img{height:76px}
+.sb-brand img{padding:10px 12px;max-width:204px}
+.notif-row{min-width:0;max-width:100%;overflow:hidden}.notif-row>*{min-width:0}.notif-row .notif-close{flex:0 0 auto}
+.notif-count{position:absolute;top:-5px;right:-5px;min-width:18px;height:18px;padding:0 5px;border-radius:999px;background:#d92d20;color:#fff;font:700 10.5px/18px var(--font-body,inherit);text-align:center;border:2px solid var(--surface,#fff);box-sizing:content-box}
+body.af-server-on .af-save-status{display:none!important}
+.af-demo{cursor:default}.af-demo summary{cursor:pointer;font-weight:700;color:var(--ink);list-style:none;display:flex;align-items:center;justify-content:space-between}
+.af-demo summary::-webkit-details-marker{display:none}.af-demo summary::after{content:'Show';font-size:11px;font-weight:600;color:var(--teal-dark,#0b5e73)}
+.af-demo[open] summary::after{content:'Hide'}.af-demo[open] summary{margin-bottom:6px}
+.af-server-pill{display:inline-flex;align-items:center;gap:7px;padding:6px 11px;border:1px solid var(--border);border-radius:999px;font-size:11.5px;font-weight:700;color:var(--ink-muted);background:var(--surface,#fff);white-space:nowrap}
+.af-server-pill .dot{width:8px;height:8px;border-radius:50%;background:var(--amber,#b7791f);flex:none}
+.af-server-pill.online .dot{background:var(--green,#1a8f5a);box-shadow:0 0 0 3px rgba(26,143,90,.18)}.af-server-pill.offline .dot{background:var(--red,#d92d20)}
+.af-feature strong span svg{width:15px;height:15px;flex:none}
+.topbar .actions{gap:10px}
+@media(max-width:560px){.af-login-brand .logo-wide{padding:12px 18px}.af-login-brand .logo-wide img{height:56px}}
+@media(max-width:640px){
+  .topbar{gap:8px}
+  .topbar .titlewrap{flex:1 1 auto;min-width:0}
+  .topbar .title{font-size:18px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
+  .topbar .actions{flex:0 0 auto;gap:6px}
+  .topbar .actions>.muted{display:none}
+  .af-server-pill{padding:7px;gap:0}.af-server-pill span:last-child{display:none}
+  .topbar .icon-btn{min-width:40px;min-height:40px}
+  .af-feature-grid{grid-template-columns:1fr}
+}
 /* ===== Nirmal Agency dashboard ===== */
 .dash-head{display:flex;align-items:flex-end;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:14px}
 .dash-title{font-size:20px;margin:0 0 3px;letter-spacing:-.01em}
@@ -852,7 +879,7 @@ function gateHTML(){
         <div class="field"><label>Password</label><div class="af-password"><input name="password" id="login-password" type="password" autocomplete="current-password" placeholder="Enter your password" required><button type="button" class="icon-btn" data-action="toggle-password" title="Show password">${ic('eye')}</button></div></div>
         <button type="submit" class="btn primary af-login-submit">${ic('logout')} Sign in</button>
       </form>
-      <div class="af-demo"><strong>Demo access</strong><br>Admin: <b>admin</b> / <b>admin123</b><br>Technician: <b>suresh</b> / <b>tech123</b> &nbsp; <b>iqbal</b> / <b>tech123</b></div>
+      <details class="af-demo"><summary>Demo access</summary>Admin: <b>admin</b> / <b>admin123</b><br>Technician: <b>suresh</b> / <b>tech123</b> &nbsp; <b>iqbal</b> / <b>tech123</b></details>
       <div class="af-login-footer">Secure role-based workspace · Nirmal Agency</div>
     </div></section>
   </div>`;
@@ -896,7 +923,7 @@ function adminShellHTML(){
           <div class="title head">${ADMIN_NAV.find(n=>n.id===STATE.adminView)?.label || ''}</div>
         </div>
         <div class="actions">
-          <button class="icon-btn" data-action="nav" data-view="notifications" aria-label="Notifications" title="Notifications" style="position:relative">${ic('bell')}${notifCount?`<span class="badge b-red" style="position:absolute; top:-6px; right:-6px; padding:1px 5px">${notifCount}</span>`:''}</button>
+          <button class="icon-btn" data-action="nav" data-view="notifications" aria-label="Notifications" title="Notifications" style="position:relative">${ic('bell')}${notifCount?`<span class="notif-count" aria-label="${notifCount} unread">${notifCount>99?'99+':notifCount}</span>`:''}</button>
           <div class="muted" style="font-size:12.5px">${new Date().toLocaleDateString('en-IN',{weekday:'short', day:'2-digit', month:'short'})}</div>
         </div>
       </div>
@@ -1259,7 +1286,7 @@ function viewCustomerProfile(id){
   </div>
   <div class="section-title">RO Machines</div>
   ${ros.length? `<div class="table-wrap panel"><table><thead><tr><th>Model</th><th>Serial</th><th>Type</th><th>Next Service</th><th>Status</th><th></th></tr></thead><tbody>
-    ${ros.map(r=>`<tr><td><strong>${r.model}</strong><div class="muted" style="font-size:11.5px">${r.brand}</div></td><td class="mono">${r.serial}</td><td>${r.purificationType}</td><td>${fmtDate(r.nextServiceDate)}</td><td>${roStatusBadge(r)}</td>
+    ${ros.map(r=>`<tr><td><strong>${r.model}</strong><div class="muted" style="font-size:11.5px">${r.brand}</div></td><td class="mono">${r.serial}</td><td>${r.roType||r.purificationType}</td><td>${fmtDate(r.nextServiceDate)}</td><td>${roStatusBadge(r)}</td>
     <td><div class="search-row" style="gap:4px"><button class="icon-btn" data-action="edit-ro" data-id="${r.id}">${ic('edit')}</button></div></td></tr>`).join('')}
   </tbody></table></div>` : emptyState('ro','No RO machines','Add an RO machine for this customer.')}
   <div class="section-title">AMC contracts</div>
@@ -1287,7 +1314,7 @@ function viewRO(){
         return `<tr>
         <td><a href="#" data-action="view-customer" data-id="${r.customerId}" style="text-decoration:underline">${custName(r.customerId)}</a></td>
         <td><strong>${r.model}</strong><div class="muted mono" style="font-size:11.5px">${r.serial}</div></td>
-        <td>${r.purificationType}</td><td>${freqLabel(r.serviceFrequency)}</td>
+        <td>${r.roType||r.purificationType}</td><td>${freqLabel(r.serviceFrequency)}</td>
         <td>${fmtDate(r.lastServiceDate)}</td>
         <td>${fmtDate(r.nextServiceDate)} ${overdue?'<span class="badge b-red">Overdue</span>':''}</td>
         <td>${roStatusBadge(r)}</td>
@@ -2251,6 +2278,7 @@ document.addEventListener('keydown',function(e){
     });
   }
   normalizeDB();
+  window.__afNormalize = normalizeDB; // lets the server bridge normalise data it pulls from the API
 
   /* ---------- robust validation ---------- */
   function setFieldError(field, message){
@@ -2643,7 +2671,7 @@ button,.btn,.icon-btn,.sb-item,.tb-item{min-height:var(--touch);}
   const baseGateHTML=gateHTML;
   gateHTML=function(){
     const html=baseGateHTML();
-    return html.replace('</form>', '<div class="af-local-mode">'+ic('shield')+' Local browser mode · Data stays on this device</div></form>');
+    return html.replace('</form>', '<div class="af-local-mode">'+ic('shield')+(window.AquaFlow&&window.AquaFlow.serverMode?' Secure connection · Data is saved to the live database':' Offline mode · Data stays on this device')+'</div></form>');
   };
 
   /* ---------- add a small global offline/local indicator ---------- */
@@ -2675,7 +2703,7 @@ button,.btn,.icon-btn,.sb-item,.tb-item{min-height:var(--touch);}
     const out=await api('/auth/login',{method:'POST',body:JSON.stringify({username,password,role})});
     csrf=out.csrf_token||''; sessionStorage.setItem('aquaflow_csrf',csrf); serverOnline=true; window.AquaFlow.serverMode=true; return out;
   }
-  async function pull(){const out=await api('/bootstrap'); if(out?.data){DB=out.data; if(!DB.notificationsRead)DB.notificationsRead={}; if(!DB.notificationsDismissed)DB.notificationsDismissed={}; DB.settings=DB.settings||{}; ['serviceReminderDays','amcReminderDays'].forEach(k=>{ const v=DB.settings[k]; if(!Array.isArray(v)) DB.settings[k]=String(v==null?'':v).split(',').map(x=>parseInt(x,10)).filter(n=>!isNaN(n)); }); if(!DB.settings.companyName||/aquaflow/i.test(DB.settings.companyName))DB.settings.companyName='Nirmal Agency'; if(out.revision!=null)rev=out.revision; lastSync=new Date(); persistLocalOnly();} return out;}
+  async function pull(){const out=await api('/bootstrap'); if(out?.data){DB=out.data; if(window.__afNormalize) window.__afNormalize(); if(!DB.notificationsRead)DB.notificationsRead={}; if(!DB.notificationsDismissed)DB.notificationsDismissed={}; DB.settings=DB.settings||{}; ['serviceReminderDays','amcReminderDays'].forEach(k=>{ const v=DB.settings[k]; if(!Array.isArray(v)) DB.settings[k]=String(v==null?'':v).split(',').map(x=>parseInt(x,10)).filter(n=>!isNaN(n)); }); if(!DB.settings.companyName||/aquaflow/i.test(DB.settings.companyName))DB.settings.companyName='Nirmal Agency'; if(out.revision!=null)rev=out.revision; lastSync=new Date(); persistLocalOnly();} return out;}
   function persistLocalOnly(){try{localStorage.setItem(STORAGE_KEY,JSON.stringify(DB));window.__afLastSaved=new Date();}catch(e){}}
   const originalPersist = persist;
   persist = function(){ originalPersist(); queueSync(); };
@@ -2734,7 +2762,7 @@ button,.btn,.icon-btn,.sb-item,.tb-item{min-height:var(--touch);}
   const oldRender=render;
   render=function(){oldRender();requestAnimationFrame(()=>{
     const actions=document.querySelector('.topbar .actions'); if(actions&&!document.getElementById('af-server-pill')){const p=document.createElement('span');p.id='af-server-pill';p.className='af-server-pill '+(serverOnline?'online':'offline');p.innerHTML='<span class="dot"></span><span>'+ (serverOnline?'Server connected':'Local mode')+'</span>';actions.prepend(p);}
-    const p=document.getElementById('af-server-pill'); if(p){p.className='af-server-pill '+(serverOnline?'online':'offline');p.innerHTML='<span class="dot"></span><span>'+ (serverOnline?'Server connected':'Local mode')+'</span>';}
+    const p=document.getElementById('af-server-pill'); if(p){p.className='af-server-pill '+(serverOnline?'online':'offline');p.innerHTML='<span class="dot"></span><span>'+ (serverOnline?'Server connected':'Offline mode')+'</span>';} document.body.classList.toggle('af-server-on',!!serverOnline);
   });};
   // Probe without blocking first paint; authenticated sessions are restored from cookie.
   (async()=>{try{if(await probe()){try{const me=await api('/auth/me'); if(me?.user){csrf=sessionStorage.getItem('aquaflow_csrf')||'';STATE.role=me.user.role;STATE.loginRole=me.user.role;STATE.userId=me.user.id;STATE.username=me.user.username;STATE.technicianId=me.user.technician_id||null;await pull();}}catch(_){}}}catch(_){} finally{render();}})();
