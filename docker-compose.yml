@@ -1,12 +1,51 @@
+# Nirmal Agency — production stack for a VPS: app + automatic HTTPS (Caddy) + daily database backups.
+# Setup: copy .env.example to .env, fill it in, then run:  docker compose up -d --build
 services:
-  aquaflow:
+  app:
     build: .
+    restart: unless-stopped
+    environment:
+      AQUAFLOW_ENV: production
+      AQUAFLOW_COOKIE_SECURE: "1"
+      AQUAFLOW_DB: /app/data/aquaflow.db
+      AQUAFLOW_ADMIN_USER: ${ADMIN_USER:-admin}
+      AQUAFLOW_ADMIN_PASSWORD: ${ADMIN_PASSWORD:?Set ADMIN_PASSWORD in .env (at least 10 characters)}
+    volumes:
+      - app_data:/app/data
+    expose:
+      - "8799"
+
+  caddy:
+    image: caddy:2-alpine
+    restart: unless-stopped
+    depends_on:
+      app:
+        condition: service_healthy
     ports:
-      - "8799:8799"
+      - "80:80"
+      - "443:443"
+    environment:
+      DOMAIN: ${DOMAIN:?Set DOMAIN in .env (for example app.yourcompany.in)}
+    volumes:
+      - ./deploy/Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+      - caddy_config:/config
+
+  backup:
+    build: .
+    restart: unless-stopped
+    user: "0:0"
+    command: ["python", "backup.py"]
     environment:
       AQUAFLOW_DB: /app/data/aquaflow.db
-      AQUAFLOW_SECRET: change-this-before-production
+      BACKUP_DIR: /backups
+      BACKUP_EVERY_HOURS: ${BACKUP_EVERY_HOURS:-24}
+      BACKUP_KEEP: ${BACKUP_KEEP:-30}
     volumes:
-      - aquaflow_data:/app/data
+      - app_data:/app/data
+      - ./backups:/backups
+
 volumes:
-  aquaflow_data:
+  app_data:
+  caddy_data:
+  caddy_config:

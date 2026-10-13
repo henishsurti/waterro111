@@ -1,0 +1,12 @@
+.git
+.gitignore
+*.db
+*.bat
+backups
+.env
+**/__pycache__
+**/.pytest_cache
+backend/tests
+*.md
+VERSION.txt
+BUILD-MANIFEST.json

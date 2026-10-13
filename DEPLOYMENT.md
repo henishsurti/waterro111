@@ -1,5 +1,7 @@
 # Nirmal Agency Manager V9.1 — delivery & deployment
 
+**Going live on a server? Follow [DEPLOY-VPS.md](DEPLOY-VPS.md)** (Docker, automatic HTTPS, daily backups).
+
 ## Local
 1. Install Python 3.12+ / 3.13.
 2. Run `start-professional.bat`.
@@ -15,16 +17,16 @@
 - Audit: `/api/audit` (admin)
 
 ## Security before production
-- Set a long random `AQUAFLOW_SECRET`.
+- Set `AQUAFLOW_ENV=production` (the compose file does): the server then refuses to start without a strong first-admin password and the demo logins/sample data are hidden.
 - Set `AQUAFLOW_COOKIE_SECURE=1` behind HTTPS.
 - Use PostgreSQL for multi-user production workloads.
-- Replace demo passwords and seed users.
+- Never deploy `aquaflow.db` (demo data); a production database starts empty.
 - Use Argon2id or bcrypt through a maintained password library.
-- Put the API behind HTTPS + reverse proxy, rate limiting and log monitoring.
+- HTTPS reverse proxy (Caddy) and login rate limiting are built in; add log monitoring.
 - Move service photos to object storage.
-- Add scheduled backups and restore drills.
+- Daily backups are built in (`backend/backup.py`); copy them off the server and practise a restore.
 - Restrict CORS to exact production origins.
-- Add server-side per-role permissions for each CRUD endpoint.
+- Technicians can only update their own jobs (enforced on the server); finer-grained admin roles are not implemented.
 
 ## Testing
 Run `python -m pytest backend/tests -q` after installing requirements and pytest.

@@ -461,6 +461,7 @@ input:focus,select:focus,textarea:focus{outline:none; box-shadow:var(--focus); b
 .notif-row{min-width:0;max-width:100%;overflow:hidden}.notif-row>*{min-width:0}.notif-row .notif-close{flex:0 0 auto}
 .notif-count{position:absolute;top:-5px;right:-5px;min-width:18px;height:18px;padding:0 5px;border-radius:999px;background:#d92d20;color:#fff;font:700 10.5px/18px var(--font-body,inherit);text-align:center;border:2px solid var(--surface,#fff);box-sizing:content-box}
 body.af-server-on .af-save-status{display:none!important}
+body.af-server-on [data-action="reset-data"]{display:none!important}
 .af-demo{cursor:default}.af-demo summary{cursor:pointer;font-weight:700;color:var(--ink);list-style:none;display:flex;align-items:center;justify-content:space-between}
 .af-demo summary::-webkit-details-marker{display:none}.af-demo summary::after{content:'Show';font-size:11px;font-weight:600;color:var(--teal-dark,#0b5e73)}
 .af-demo[open] summary::after{content:'Hide'}.af-demo[open] summary{margin-bottom:6px}
@@ -2146,7 +2147,7 @@ document.addEventListener('click', function(e){
 
     case 'export-csv': exportCSV(el.getAttribute('data-report'), window.__reportData?.[el.getAttribute('data-report')]||[]); break;
     case 'export-json': { const blob=new Blob([JSON.stringify(DB,null,2)],{type:'application/json'}); const url=URL.createObjectURL(blob); const a=document.createElement('a'); a.href=url; a.download='nirmal_agency_backup.json'; a.click(); URL.revokeObjectURL(url); break; }
-    case 'reset-data': if(confirm('Reset all data to the sample dataset? This removes anything you added.')){ DB = seedData(); persist(); toast('Data reset'); render(); } break;
+    case 'reset-data': if(window.AquaFlow&&window.AquaFlow.serverMode){ toast('Sample data is disabled while connected to the live database'); break; } if(confirm('Reset all data to the sample dataset? This removes anything you added.')){ DB = seedData(); persist(); toast('Data reset'); render(); } break;
 
     case 'dash-go': dashGo(el); break;
     case 'dash-range': STATE.dashRange=el.getAttribute('data-range')||'30'; render(); break;
@@ -2559,6 +2560,7 @@ button,.btn,.icon-btn,.sb-item,.tb-item{min-height:var(--touch);}
       const kind=action.replace('delete-',''); deleteEntity(kind,el.getAttribute('data-id')); return;
     }
     if(action==='reset-data'){
+      if(window.AquaFlow&&window.AquaFlow.serverMode){ toast('Sample data is disabled while connected to the live database'); return; }
       e.preventDefault(); e.stopImmediatePropagation();
       confirmAction('Reset sample data','Replace all local data with the original sample dataset? Your current browser data will be lost unless exported first.','Reset data','reset'); return;
     }
@@ -2671,7 +2673,9 @@ button,.btn,.icon-btn,.sb-item,.tb-item{min-height:var(--touch);}
   const baseGateHTML=gateHTML;
   gateHTML=function(){
     const html=baseGateHTML();
-    return html.replace('</form>', '<div class="af-local-mode">'+ic('shield')+(window.AquaFlow&&window.AquaFlow.serverMode?' Secure connection · Data is saved to the live database':' Offline mode · Data stays on this device')+'</div></form>');
+    const prod = window.AquaFlow && window.AquaFlow.serverHealth && window.AquaFlow.serverHealth.production;
+    const base = prod ? html.replace(/<details class="af-demo">[\s\S]*?<\/details>/,'') : html;
+    return base.replace('</form>', '<div class="af-local-mode">'+ic('shield')+(window.AquaFlow&&window.AquaFlow.serverMode?' Secure connection · Data is saved to the live database':' Offline mode · Data stays on this device')+'</div></form>');
   };
 
   /* ---------- add a small global offline/local indicator ---------- */

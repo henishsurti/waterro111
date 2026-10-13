@@ -30,6 +30,8 @@ Open `index.html` or run `py -m http.server 8799`. Local browser storage remains
 Demo credentials must be changed before any real deployment.
 
 ## Production
+To run it live on your own server with HTTPS, a shared live database and daily backups, follow **[DEPLOY-VPS.md](DEPLOY-VPS.md)**.
+
 Use PostgreSQL, HTTPS, a long secret, Argon2id/bcrypt, strict RBAC, object storage for photos, backups, monitoring, rate limiting and a reverse proxy. See `DEPLOYMENT.md`.
 
 ## Files

@@ -18,6 +18,12 @@ APP_VERSION='9.1.0'
 SESSION_TTL=int(os.getenv('AQUAFLOW_SESSION_TTL','28800'))
 SECRET=os.getenv('AQUAFLOW_SECRET','change-this-local-secret')
 COOKIE_SECURE=os.getenv('AQUAFLOW_COOKIE_SECURE','0')=='1'
+PRODUCTION=os.getenv('AQUAFLOW_ENV','').lower()=='production'
+ADMIN_USER=os.getenv('AQUAFLOW_ADMIN_USER','admin').strip() or 'admin'
+ADMIN_PASSWORD=os.getenv('AQUAFLOW_ADMIN_PASSWORD','')
+MIN_ADMIN_PASSWORD=10
+LOGIN_MAX_FAILS=int(os.getenv('AQUAFLOW_LOGIN_MAX_FAILS','8'))
+LOGIN_WINDOW=int(os.getenv('AQUAFLOW_LOGIN_WINDOW','300'))
 
 @asynccontextmanager
 async def lifespan(_app):
@@ -50,6 +56,18 @@ def init_db():
         if not row:
             # State is initialized by the first authenticated sync; relational tables are already seeded.
             c.execute("INSERT OR IGNORE INTO app_state(id,version,payload_json) VALUES(1,?,?)",(APP_VERSION,json.dumps({})))
+        ensure_first_admin(c)
+
+def ensure_first_admin(c):
+    # A brand-new database has no users, so nobody could sign in. Create the first admin from the
+    # environment (never from a hard-coded default) and refuse to start a production server without one.
+    if c.execute('SELECT COUNT(*) FROM users').fetchone()[0]>0: return
+    if not ADMIN_PASSWORD:
+        if PRODUCTION: raise RuntimeError('No users exist yet: set AQUAFLOW_ADMIN_PASSWORD (min %d characters) to create the first admin.'%MIN_ADMIN_PASSWORD)
+        return
+    if PRODUCTION and len(ADMIN_PASSWORD)<MIN_ADMIN_PASSWORD: raise RuntimeError('AQUAFLOW_ADMIN_PASSWORD must be at least %d characters.'%MIN_ADMIN_PASSWORD)
+    c.execute("INSERT INTO users(id,username,password_hash,role,name,status) VALUES(?,?,?,?,?,'Active')",('u_'+secrets.token_hex(6),ADMIN_USER,hash_password(ADMIN_PASSWORD),'admin','Administrator'))
+    c.execute('INSERT INTO audit_log(user_id,action,entity_type,details) VALUES(?,?,?,?)',(None,'CREATE_ADMIN','user',json.dumps({'username':ADMIN_USER})))
 
 def hash_password(password:str,salt:bytes|None=None)->str:
     salt=salt or secrets.token_bytes(16)
@@ -111,7 +129,7 @@ def json_state_from_db(c):
     services=[]
     for x in rows('SELECT * FROM services'):
         sid=x['id']; parts=rows('SELECT name,quantity AS qty,unit_cost AS cost FROM service_parts WHERE service_id=?',(sid,))
-        services.append({**x,'customerId':x.pop('customer_id'),'roId':x.pop('ro_id'),'technicianId':x.pop('technician_id'),'requestDate':x.pop('request_date'),'scheduledDate':x.pop('scheduled_date'),'dueDate':x.pop('due_date'),'partsUsed':parts,'laborCost':x.pop('labor_cost'),'partsCost':x.pop('parts_cost'),'additionalCharges':x.pop('additional_charges'),'discount':x.pop('discount'),'totalAmount':x.pop('total_amount'),'paymentStatus':x.pop('payment_status'),'paymentMode':x.pop('payment_mode'),'completedAt':x.pop('completed_at'),'createdAt':x.pop('created_at'),'updatedAt':x.pop('updated_at')})
+        services.append({**x,'customerId':x.pop('customer_id'),'roId':x.pop('ro_id'),'technicianId':x.pop('technician_id'),'requestDate':x.pop('request_date'),'scheduledDate':x.pop('scheduled_date'),'dueDate':x.pop('due_date'),'partsUsed':parts,'workPerformed':x.pop('work_performed'),'laborCost':x.pop('labor_cost'),'partsCost':x.pop('parts_cost'),'additionalCharges':x.pop('additional_charges'),'discount':x.pop('discount'),'totalAmount':x.pop('total_amount'),'paymentStatus':x.pop('payment_status'),'paymentMode':x.pop('payment_mode'),'completedAt':x.pop('completed_at'),'createdAt':x.pop('created_at'),'updatedAt':x.pop('updated_at')})
     users=[]
     for x in rows('SELECT id,username,role,technician_id,name,status,created_at AS createdAt,updated_at AS updatedAt FROM users'):
         users.append(x)
@@ -123,6 +141,20 @@ def json_state_from_db(c):
         settings['pushEnabled']=str(settings['pushEnabled']).strip().lower() in ('true','1','yes')
     state={'customers':customers,'roMachines':ros,'amcs':amcs,'technicians':techs,'services':services,'users':users,'settings':settings,'notificationsRead':{},'notificationsDismissed':{},'meta':{'updatedAt':datetime.now(timezone.utc).isoformat(),'version':APP_VERSION}}
     return state
+
+TECH_FIELDS=('status','remarks','workPerformed','partsUsed','partsCost','laborCost','additionalCharges','discount','totalAmount','paymentMode','paymentStatus','signature','completedAt')
+
+def technician_view_of_sync(c,user,incoming):
+    # A technician may only update the jobs assigned to them, and only the fields the field app edits.
+    # Everything else the browser sends is ignored: the server rebuilds the dataset from its own copy.
+    data=json_state_from_db(c); tid=user.get('technician_id')
+    sent={x.get('id'):x for x in (incoming.get('services') or []) if isinstance(x,dict)}
+    for svc in data['services']:
+        inc=sent.get(svc['id'])
+        if not tid or svc.get('technicianId')!=tid or not inc: continue
+        for f in TECH_FIELDS:
+            if f in inc: svc[f]=inc[f]
+    return data
 
 def sync_relational(c,data,user):
     # Replace operational relational dataset transactionally. IDs remain client-stable.
@@ -160,17 +192,31 @@ def sync_relational(c,data,user):
 @app.get('/api/health')
 def health():
     with conn() as c: db_ok=c.execute('SELECT 1').fetchone()[0]==1
-    return {'ok':True,'service':'nirmal-agency-api','version':APP_VERSION,'database':db_ok,'time':datetime.now(timezone.utc).isoformat()}
+    return {'ok':True,'service':'nirmal-agency-api','version':APP_VERSION,'production':PRODUCTION,'database':db_ok,'time':datetime.now(timezone.utc).isoformat()}
+
+FAILS:dict[str,list[float]]={}
+
+def _rate_key(request:Request,username:str)->str:
+    ip=request.client.host if request.client else 'unknown'
+    return ip+'|'+username.strip().lower()
+
+def _check_rate(key:str):
+    now=time.time(); recent=[t for t in FAILS.get(key,[]) if now-t<LOGIN_WINDOW]; FAILS[key]=recent
+    if len(recent)>=LOGIN_MAX_FAILS: raise HTTPException(429,'Too many failed sign-in attempts. Please wait a few minutes and try again.')
 
 @app.post('/api/auth/login')
-def login(body:LoginIn,response:Response):
+def login(body:LoginIn,request:Request,response:Response):
+    rkey=_rate_key(request,body.username); _check_rate(rkey)
     with conn() as c:
         r=c.execute('SELECT * FROM users WHERE username=? AND role=? AND status="Active"',(body.username.strip(),body.role)).fetchone()
-    if not r: raise HTTPException(401,'Invalid user ID or password')
+    if not r:
+        FAILS.setdefault(rkey,[]).append(time.time()); raise HTTPException(401,'Invalid user ID or password')
     stored=r['password_hash']
     # Support the seeded V8 SHA-256 hashes once, then transparently upgrade on success.
     ok=verify_password(body.password,stored) or hmac.compare_digest(legacy_sha(body.password),stored)
-    if not ok: raise HTTPException(401,'Invalid user ID or password')
+    if not ok:
+        FAILS.setdefault(rkey,[]).append(time.time()); raise HTTPException(401,'Invalid user ID or password')
+    FAILS.pop(rkey,None)
     if not stored.startswith('pbkdf2_sha256$'):
         with conn() as c:c.execute('UPDATE users SET password_hash=?,updated_at=CURRENT_TIMESTAMP WHERE id=?',(hash_password(body.password),r['id']))
     sid=secrets.token_urlsafe(32); csrf=secrets.token_urlsafe(24); SESSIONS[sid]={'user':public_user(r),'csrf':csrf,'expires':time.time()+SESSION_TTL}
@@ -213,6 +259,7 @@ def sync(body:SyncIn,request:Request):
         # Optimistic concurrency: refuse to overwrite changes made by someone else since this client last pulled.
         if body.base_revision is not None and body.base_revision!=current_revision(c):
             raise HTTPException(409,'Data was changed by another user. Latest data has been loaded.')
+        if user.get('role')!='admin': data=technician_view_of_sync(c,user,data)
         try: sync_relational(c,data,user)
         except sqlite3.IntegrityError as e: raise HTTPException(422,f'Database validation failed: {e}')
         revision=current_revision(c)

@@ -75,3 +75,53 @@ def test_edited_customer_type_is_saved(client):
     r=client.post('/api/sync',json={'data':{'customers':[cust],'users':users}},headers=h); assert r.status_code==200
     got=client.get('/api/bootstrap').json()['data']['customers'][0]
     assert got['customerType']=='Hospital'
+
+
+# ---- production hardening -------------------------------------------------
+
+def test_first_admin_is_created_from_environment(tmp_path,monkeypatch):
+    monkeypatch.setattr(app,'DB_PATH',tmp_path/'fresh.db'); monkeypatch.setattr(app,'ADMIN_USER','owner'); monkeypatch.setattr(app,'ADMIN_PASSWORD','a-long-password-1')
+    monkeypatch.setattr(app,'PRODUCTION',True); app.SESSIONS.clear(); app.init_db()
+    with TestClient(app.app) as c:
+        assert c.post('/api/auth/login',json={'username':'owner','password':'wrong-password','role':'admin'}).status_code==401
+        assert c.post('/api/auth/login',json={'username':'owner','password':'a-long-password-1','role':'admin'}).status_code==200
+    app.init_db()  # a second start must not create a second admin
+    with app.conn() as c: assert c.execute('SELECT COUNT(*) FROM users').fetchone()[0]==1
+
+def test_production_refuses_to_start_without_admin_password(tmp_path,monkeypatch):
+    monkeypatch.setattr(app,'DB_PATH',tmp_path/'fresh2.db'); monkeypatch.setattr(app,'ADMIN_PASSWORD',''); monkeypatch.setattr(app,'PRODUCTION',True)
+    with pytest.raises(RuntimeError): app.init_db()
+    monkeypatch.setattr(app,'ADMIN_PASSWORD','short')
+    with pytest.raises(RuntimeError): app.init_db()
+
+def test_login_is_rate_limited(client,monkeypatch):
+    app.FAILS.clear(); monkeypatch.setattr(app,'LOGIN_MAX_FAILS',3)
+    for _ in range(3): assert client.post('/api/auth/login',json={'username':'admin','password':'nope','role':'admin'}).status_code==401
+    assert client.post('/api/auth/login',json={'username':'admin','password':'admin123','role':'admin'}).status_code==429
+    app.FAILS.clear()
+
+def _svc(i,tech,status='Assigned'):
+    return {'id':i,'customerId':'c1','technicianId':tech,'type':'Repair','status':status,'priority':'Normal','paymentStatus':'Pending','partsCost':0,'laborCost':0,'additionalCharges':0,'discount':0,'totalAmount':0}
+
+def test_technician_can_only_update_their_own_jobs(client):
+    h=_login(client)
+    base={'users':[{'id':'u1','username':'admin','role':'admin','name':'Admin'},{'id':'u2','username':'tech1','role':'technician','technicianId':'t1','name':'Tech One','password':'techpass-123'}],
+          'technicians':[{'id':'t1','name':'Tech One'},{'id':'t2','name':'Tech Two'}],
+          'customers':[{'id':'c1','code':'CUS-1','name':'Original Name','mobile':'9000000000'}],
+          'services':[_svc('s1','t1'),_svc('s2','t2')]}
+    assert client.post('/api/sync',json={'data':base},headers=h).status_code==200
+    client.post('/api/auth/logout')
+    r=client.post('/api/auth/login',json={'username':'tech1','password':'techpass-123','role':'technician'}); assert r.status_code==200
+    th={'X-CSRF-Token':r.json()['csrf_token']}
+    boot=client.get('/api/bootstrap').json(); data=boot['data']
+    for s in data['services']:
+        s['status']='Completed'; s['workPerformed']='tampered'      # s1 is theirs, s2 is not
+    data['customers'][0]['name']='HACKED'                           # not a technician's data
+    data['users'].append({'id':'u9','username':'evil','role':'admin','name':'Evil','password':'evil-pass-123'})
+    r=client.post('/api/sync',json={'data':data,'base_revision':boot['revision']},headers=th); assert r.status_code==200
+    out=client.get('/api/bootstrap').json()['data']
+    svc={s['id']:s for s in out['services']}
+    assert svc['s1']['status']=='Completed' and svc['s1']['workPerformed']=='tampered'
+    assert svc['s2']['status']=='Assigned' and not svc['s2'].get('workPerformed')
+    assert out['customers'][0]['name']=='Original Name'
+    assert 'evil' not in [u['username'] for u in out['users']]
